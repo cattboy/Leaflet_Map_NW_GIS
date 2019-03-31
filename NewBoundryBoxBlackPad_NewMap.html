@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game World Map</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<!-- original locations -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" /> -->
+
+	<!-- not working with icons -->
+	<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
+	<!-- <link href="css/font-awesome.min.css" rel="stylesheet"> -->
+	<!-- <link href="fontawesome-free-5.7.2-web/css/fontawesome.min.css" rel="stylesheet"> -->
+	
+	
+
+	<link rel="stylesheet" href="leaflet/leaflet.css" />
+    <link rel="stylesheet" href="css/leaflet-sidebar.css" />
+ <link rel="stylesheet" href="ZoomLabel/L.Control.ZoomLabel.css" />
+
+
+  <script src="leaflet/leaflet.js"></script>
+    <script src="js/leaflet-sidebar.js"></script>
+      <script src="ZoomLabel/L.Control.ZoomLabel.js"></script>
+      
+      <!-- //NEED TO REPLACE WITH LOCALLY HOSTED FILES -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+        }
+		html { overflow-y: hidden; } <!--HIDE SCROLL BAR ON RIGHT SIDE-->
+        .lorem {
+            font-style: italic;
+            color: #AAA;
+        }
+    </style>
+
+
+
+
+</head>
+<body>
+    <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+                <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+                <li><a href="https://youtube.com/cattboy" role="tab" target="_blank"><i class="fa fa-github"></i></a></li>
+            </ul>
+
+            <ul role="tablist">
+                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content">
+            <div class="sidebar-pane" id="home">
+                <h1 class="sidebar-header">
+                    <!-- sidebar-v2 -->
+                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+
+                
+
+                <p class="filters_gathering"><h2>Resource Nodes</h2>
+                <p>	
+					<input type="checkbox" name="harvesting" value="Harvesting_Herbs">Harvesting Herbs<br>
+					<input type="checkbox" name="mining" value="Mining">Mining<br>
+					<input type="checkbox" name="lumberjacking" value="Lumberjacking">Lumberjacking<br>
+					<input type="checkbox" name="skinnable_monsters" value="Skinable_monsters">Skinable Monsters<br>
+					<input type="checkbox" name="chests_spawns" value="Chests_spawns">Chest Locations<br>
+
+					<input type="checkbox" name="claims" value="Claims">Claims<br>
+					<input type="checkbox" name="outposts" value="Outposts">Outposts<br>
+					<input type="checkbox" name="pois" value="PoIs">Points of Interest<br>
+
+					<input type="checkbox" name="monster_spawns" value="Monster_spawns">Monster Spawns<br>
+					<input type="checkbox" name="mining" value="Mining" checked>Mining<br>
+                </p>
+
+                <p>Check any box to display its location.</p>
+                <br>
+                </p>
+             <br>
+         <p>A responsive sidebar for mapping libraries like <a href="http://google.com">Gooogle APIs</a> or <a href="http://openlayers.org/">OpenLayers</a>.</p>
+                 <br>
+                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </div>
+
+            <div class="sidebar-pane" id="profile">
+                <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="messages">
+                <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+        </div>
+    </div>
+
+    <div id="map" class="sidebar-map"></div>
+
+    <!-- <a href="https://github.com/Turbo87/sidebar-v2/"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+
+<!-- Original script pointing to 1.0.1 -->
+    <!-- <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script> -->
+	
+
+
+  
+    <script>
+      var gameworldX = 14334;
+      var gameworldY = 14334;
+
+     // Gameworld Cords 2^15
+      var width = 32768;
+      var height = 32768;
+
+// Gameworld Cords 2^16
+	    // var width = 65536;
+     //  var height = 65536;
+
+
+      //These are the offset values for the tile-size we're using... 
+      var xOffset = 2.2860332077577787079670712990093; //= Width/gameworldX 
+      var yOffset = 2.2860332077577787079670712990093; //= height/gameworldY
+
+
+console.log(xOffset + " y off " + yOffset);
+
+    // var bounds2 = [[0, 6000], [9700, 14300.0]];
+var map = L.map('map', {
+        // preferCanvas: true,
+        // trackResize: false,
+        zoom: 0,
+        minZoom: 0,
+        maxZoom: 8,
+        zoomSnap: 0.25,  //change to make the map zoom in slower, lower is slower
+        zoomDelta: 0.25, //change to make the map zoom in slower, lower is slower
+        wheelPxPerZoomLevel: 200, //change to make the map zoom in slower, HIGHER is slower
+        attributionControl: false,
+        // zoomControl: false, //The +/- Control buttons default true
+        continuousWorld: false,
+        //preferCanvas: true,
+        scrollWheelZoom: true,
+        crs: L.CRS.Simple
+    }).setView([0, 0], 0);
+    // });
+    // map.setView([0, 6000], 0);
+    // map.setView(map.unproject([0, 6000]), 0);
+  
+
+
+    // var southWest = map.unproject([0,6000]);
+    // var northEast = map.unproject([9700.00, 14300.0]);
+    //   map.fitBounds(new L.LatLngBounds(southWest, northEast)); 
+  // map.fitBounds(bounds2);
+  //   var x = L.layerPoint.x;
+  //   var y = L.layerPoint.y;
+
+  // console.log(e.latlng);
+  // // coordinates in tile space
+  // var x = e.layerPoint.x;
+  // var y = e.layerPoint.y;
+  // console.log([x, y]);
+
+  // // calculate point in xy space
+  // var pointXY = L.point(x, y);
+  // console.log("Point in x,y space: " + pointXY);
+
+
+    // map.fitBounds(new L.LatLngBounds(southWest, northEast));
+  // L.tileLayer('BOTTOMLEFT/{z}/{x}/{y}.png', {
+      // L.tileLayer('tiles5 192 cut -- LOOKS BEST/{z}/{x}/{y}.png', {
+    // L.tileLayer('BOTTOMLEFT 128/{z}/{x}/{y}.png', {   // tileSize: 256 //looks good   --- so does tilesize 128
+      // L.tileLayer('BOTTOMLEFT 1024/{z}/{x}/{y}.png', {   
+      // L.tileLayer('BOTTOMLEFT 512/{z}/{x}/{y}.png', { //tileSize: 1024 //looks very good
+        // L.tileLayer('2topwr14_tile512/{z}/{x}/{y}.png', { //tileSize: 512 //looks very good
+           // L.tileLayer('2topwr15_tile512/{z}/{x}/{y}.png', { //tileSize: 512 //looks very good
+              // L.tileLayer('2topwr16_tile512/{z}/{x}/{y}.png', { //tileSize: 512 //looks very good
+
+ // L.tileLayer('2topwr16_tile256_Compressed/{z}/{x}/{y}.png', { //tileSize: 512 //looks very good
+
+         // L.tileLayer('BOTTOMLEFT 64/{z}/{x}/{y}.png', {
+           // L.tileLayer('1NORESIZE/{z}/{x}/{y}.png', {
+
+
+
+///everything above this is the old map^^^
+
+ L.tileLayer('2topwr15_NewMap_Tiles512_Compressed/{z}/{x}/{y}.png', { //tileSize: 512 //looks very good
+
+
+
+        // bounds: new L.LatLngBounds(map.unproject([0, 0], 7), map.unproject([width, height], 7)),
+        tms: false,
+        noWrap: true,
+        tileSize: 512,
+        detectRetina: true,
+        // maxNativeZoom: 12,
+        zoomSnap: .01,
+        zoomDelta: .01,
+        maxZoom: 8,
+        minZoom: -1,
+        // zoomOffset: 1,
+        crs: L.CRS.Simple
+    }).addTo(map);
+
+L.control.zoomLabel().addTo(map);
+
+//Moves the zoom dial to the top right
+// new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
+
+
+  // map.setView([-97, -417], 0);
+
+
+
+	 // var image = L.imageOverlay('All Filling Perfect Size cut.png').addTo(map);
+	// map.fitBounds(bounds2);
+    // map.fitBounds(bounds2, {padding: [0, 0, 0, 6000]});
+    // map.setView([-1, 6002], 4);
+
+
+
+
+
+
+
+// WORKING AREA
+// WORKING AREA
+
+
+// WORKING AREA
+// WORKING AREA
+
+
+
+
+// var boundstest = map.Bounds();
+// console.log("LatLngBounds boundstest output: " + boundstest);
+
+ // 	map.setMaxBounds([
+	// [-82.5, -133],
+	// [82.5, 138]
+	// ]);
+
+  
+
+
+
+// WORKING AREA
+// WORKING AREA
+
+
+var myLines = [{
+    "type": "LineString",
+    "coordinates": [[6117.359375, 98.71875], [6115.359375, 97.890625], [6114.953125, 97.1875]]
+}, {
+    "type": "LineString",
+    "coordinates": [[-110, 45], [-110, 45], [-115, 55]]
+}];
+
+var myStyle = {
+    "color": "#0000ff",
+    "weight": 5,
+    "opacity": 0.65
+
+
+};
+
+L.geoJSON(myLines, {
+    style: myStyle
+}).addTo(map);
+
+// working but not geojson
+      // var polygonPoints = [
+    
+      //  [-12, 5967],
+      //       [-106, 6105],
+      //       [-181, 5953],
+      //       [-87, 5830],
+      //       [-12, 5967]
+      //       ];
+      // var poly = L.polygon(polygonPoints).addTo(map);
+
+
+
+var geoJsonDataLines = [{
+    "type": "LineString",
+    "coordinates": [[48.25, 6048.5], [54, 6128.75], [54, 6105]]
+}];
+
+L.geoJSON(geoJsonDataLines, {
+   style: myStyle,
+    coordsToLatLng: function (coords) {
+        //                    latitude , longitude, altitude.. Enter the cords into [X,Y] and it will conver to [Y,X]
+        //return new L.LatLng(coords[1], coords[0], coords[2]); //Normal behavior
+        return new L.LatLng(coords[0], coords[1], coords[2]);
+
+    }
+}).addTo(map);
+
+
+
+
+
+
+// WORKING AREA   /// This is all the polygons for the lawless/outposts/claims
+var polygon_claim_lawless = [{
+    "type": "Feature",
+    "properties": {"area_type": "Claim"},
+    "geometry": {
+ "type": "Polygon",
+  "coordinates": [
+    // [
+    //   [-12,5967      ],
+    //   [        -87,        5830      ],
+    //   [        -181,        5953      ],
+    //   [        -106,        6105      ],
+    //   [        -12,        5967      ]
+    // ]
+
+
+    [
+      [5967, -12      ],
+      [              5830,-87      ],
+      [        5953,-181              ],
+      [               6105,-106      ],
+      [        5967, -12              ]
+    ]
+
+
+    ]}
+}, {
+    "type": "Feature",
+    "properties": {"area_type": "Lawless"},
+    "geometry": {  
+  "type": "Polygon",
+  "coordinates": [
+    [      
+    [         5950, 40             ],
+      [               6000,  60     ],
+      [                6100,55      ],
+      [                5950,40     ]
+    ]
+    ]}
+}, {
+    "type": "Feature",
+    "properties": {"area_type": "Outpost"},
+    "geometry": {  
+  "type": "Polygon",
+  "coordinates": [
+    [      
+    [        5896, 24            ],
+      [                5940,-12    ],
+      [                 5808,-67     ],
+      [                 5784,-3    ],
+        [        5896, 24            ]
+    ]
+    ]}
+}];
+
+L.geoJSON(polygon_claim_lawless, {
+  // style: myStyle,
+    style: function(feature) 
+    {
+        switch (feature.properties.area_type)
+         {
+            case 'Claim': return {color: "#FFFFFF", "weight": 1, "opacity": 0.75};
+            case 'Lawless': return {color: "#d80000", "weight": 4, "opacity": 0.75} ;
+            case 'Outpost': return {color: "#24ce24", "weight": 2.5, "opacity": 0.75} ;
+        }
+    }
+}).addTo(map);
+
+
+// WORKING AREA 
+//TEST #1
+
+
+ //this is to add custom icons
+
+// replace Leaflet's default blue marker with a custom icon
+
+
+// var iconlatlng =  [        5896, 24            ];
+
+
+
+
+// function createCustomIcon_Map (feature, latlng) {
+//   let myIcon = L.icon({
+//     iconUrl: 'map_icons/outpost.TIF',
+//     shadowUrl: 'map_icons/outpost.TIF',
+//     iconSize:     [25, 25], // width and height of the image in pixels
+//     shadowSize:   [35, 20], // width, height of optional shadow image
+//     iconAnchor:   [12, 12], // point of the icon which will correspond to marker's location
+//     shadowAnchor: [12, 6],  // anchor point of the shadow. should be offset
+//     popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+//   })
+//   return L.marker(iconlatlng, { icon: myIcon })
+// }
+
+// // create an options object that specifies which function will called on each feature
+// let myLayerOptions = {
+//   pointToLayer: createCustomIcon_Map
+// }
+
+// // create the GeoJSON layer
+// L.geoJSON(myLayerData, myLayerOptions).addTo(map)
+
+
+
+
+///TEST #2
+
+// var myIcon = L.Icon.extend({
+//     iconUrl: 'map_icons/outpost.TIF',
+//         iconSize: [38, 95],
+//         iconAnchor: [22, 94],
+//         popupAnchor: [-3, -76]
+    
+//     });
+  
+//       L.geoJson(PPES, {
+//     pointToLayer: function (feature, latLng) {
+//           return new L.Marker(iconlatlng, {
+//             icon: new myIcon({
+//               iconUrl: 'map_icons/outpost.TIF'
+//             })
+//           })
+//       }
+//     }).addTo(map)
+
+
+// WORKING AREA
+// WORKING AREA
+
+var myIcon = L.icon({
+    iconUrl: 'map_icons/outpost.png',
+    iconSize: [35, 35],
+    iconAnchor: [10, 10],
+    popupAnchor: [-3, -76]
+    // shadowUrl: 'map_icons/outpost.png',
+    // shadowSize: [68, 95],
+    // shadowAnchor: [22, 94]
+});
+L.marker([0, 0], {icon: myIcon}).addTo(map);
+
+
+// WORKING AREA
+// WORKING AREA  //this is where we will click the map, and give users a chance to submit there details of the item they select
+
+
+//This opens a pop up on left click that shows the area they clicked
+var popup = L.popup();
+
+function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(map);
+}
+
+map.on('click', onMapClick);
+
+
+
+
+//This opens a pop up on right click and has a submission form for the area they clicked
+
+map.on('contextmenu', onPopupBoxSubmit);
+
+    var featureGroup = L.featureGroup().addTo(map);
+
+function onPopupBoxSubmit(eb) {
+
+         var xy = map.project([eb.latlng.lat,eb.latlng.lng],6); 
+         console.log(xy);
+       var coords3 = convertToInGameCords(xy);
+          console.log(coords3);
+          var popupContent = '<form role="form" id="form" enctype="multipart/form-data" class = "form-horizontal" onsubmit="addMarker()">'+
+          // '<div class="form-group">'+
+          //     '<label class="control-label col-sm-5"><strong>Date: </strong></label>'+
+          //     '<input type="date" placeholder="Required" id="date" name="date" class="form-control"/>'+ 
+          // '</div>'+
+          '<div class="form-group">'+
+              // '<label class="control-label col-sm-5"><strong>Harvesting Tool Type: </strong></label>'+
+              '<select class="form-control" id="node_resource" name="node_resource">'+
+
+                '<option selected disabled>Select Harvesting Tool</option>'+
+                '<option value="mining_pick">Mining Pick</option>'+
+                '<option value="lumberjacking_axe">Lumberjacking Axe</option>'+
+                '<option value="sickle_">Sickle</option>'+
+                '<option value="skinning_knife">Skinning Knife</option>'+
+              '</select>'+ 
+          '</div>'+
+
+          '<div class="form-group">'+
+              // '<label class="control-label col-sm-5"><strong>Node Name: </strong></label>'+
+              '<select class="form-control" id="node_resource_name" name="node_resource_name">'+
+                '<option selected disabled>Harvesting Nodes Name</option>'+
+                '<option value="Wyrdwood">Wyrdwood</option>'+
+                '<option value="Ironwood">Ironwood</option>'+
+                '<option value="Hemp">Hemp</option>'+
+                '<option value="Skinning Knife">Skinning Knife</option>'+
+              '</select>'+ 
+          '</div>'+
+
+
+          //Counter Box
+          // '<div class="form-group">'+
+          //     '<label class="control-label col-sm-5"><strong>SubGroup: </strong></label>'+
+          //     '<input type="number" min="0" class="form-control" id="age" name="age">'+ 
+          // '</div>'+
+
+          //description box
+          // '<div class="form-group">'+
+          //     '<label class="control-label col-sm-5"><strong>Description: </strong></label>'+
+          //     '<textarea class="form-control" rows="6" id="descrip" name="descript">...</textarea>'+
+          // '</div>'+
+
+          //not sure what this does???
+          // '<input style="display: none;" type="text" id="lat" name="lat" value="'+coords3.x+'" />'+
+          // '<input style="display: none;" type="text" id="lng" name="lng" value="'+coords3.y+'" />'+
+          '<div class="form-group">'+
+            '<div style="text-align:center;" class="col-xs-4 col-xs-offset-2"><button type="button" class="btn">Cancel</button></div>'+
+            '<div style="text-align:center;" class="col-xs-4"><button type="submit" value="submit" class="btn btn-primary trigger-submit">Submit</button></div>'+
+          '</div>'+
+
+
+
+
+
+
+          '</form>';
+
+         popup
+            .setLatLng(eb.latlng)
+            // .setContent(popupContent + eb.latlng.toString())
+            .setContent(popupContent + "X: "+coords3.x+" Y: "+coords3.y)
+            .openOn(map);
+      };
+
+
+
+
+
+// WORKING AREA //javascript for hiding or showing the changed lines
+
+
+
+//WORKING
+// //Returns the X/Y cords from the map on click
+
+
+map.on('click', function(e) {
+  doStuff(e);
+});
+
+
+function doStuff(e) {
+  // console.log(e.latlng);
+  // // coordinates in tile space
+  // var x = e.layerPoint.x;
+  // var y = e.layerPoint.y;
+  // console.log([x, y]);
+
+  // // calculate point in xy space
+  // var pointXY = L.point(x, y);
+  // var pointYX = L.point(y, x);
+
+  // console.log("Point in x,y space: " + pointXY);
+  //   console.log("Point in Y X space: " + pointYX);
+
+  // // convert to lat/lng space
+  // var pointlatlng = map.layerPointToLatLng(pointXY);
+  // // why doesn't this match e.latlng?
+  // console.log("Point in layerPointToLatLng lat,lng space: " + pointlatlng);
+
+  // var pointlatlngYX = map.layerPointToLatLng(pointYX);
+  // // why doesn't this match e.latlng?
+  // console.log(" Y X: " + pointlatlngYX);
+
+
+  // var containpointlatlng = map.containerPointToLatLng(pointXY);
+  // // why doesn't this match e.latlng?
+  // console.log("Point in containerPointToLatLng lat,lng space: " + containpointlatlng);
+
+  // var layerpointpointlatlng = map.layerPointToContainerPoint(pointXY);
+  // // why doesn't this match e.latlng?
+  // console.log("Point in layerPointToContainerPoint lat,lng space: " + layerpointpointlatlng);
+
+
+////This will collect the pixels location whe nclicking the map
+
+ var xy = this.map.project([e.latlng.lat,e.latlng.lng],6); //(we need to change the zoom level 6-7 depending on the map's max zoom
+      console.log("this is the pixel count location: " + xy);
+
+      //This returns the in-game value...
+var  xy2 = [xy.x/xOffset,(height-xy.y)/yOffset];
+
+ console.log("this is the ingame location: " + xy2);
+
+
+var xy3 = convertToInGameCords(xy);
+
+console.log("testing cordconversion x: " + xy3.x + " & testing cordconversiony : " + xy3.y);
+
+//adds a marker at the click location
+// var marker2 = L.marker([e.latlng.lat,e.latlng.lng]).addTo(map);
+
+}
+
+  
+function convertToInGameCords(ingamecoords) {
+
+console.log("inside convertToInGameCords x,y " + ingamecoords );
+          var translateFactors = 
+          {
+            "x": (ingamecoords.x / xOffset),
+            "y":  ((height-ingamecoords.y) / yOffset)
+          };
+
+        return translateFactors;
+}
+
+
+// var sourceCoords = [{ "x": 4928, "y": 31680 }];
+// var targetCoords = [{ "x": 2155.69921875, "y": 475.93359375 }];
+// console.log("targetCoords x " + sourceCoords[0].x, "targetCoords y  " + sourceCoords[0].y, );
+// console.log("targetCoords x " + targetCoords[0].x, "targetCoords y  " + targetCoords[0].y, );
+
+
+ var marker2 = L.marker([0, 6000]).addTo(map);
+
+        var marker = L.marker([0, 0]).addTo(map);
+        var sidebar = L.control.sidebar('sidebar').addTo(map);
+    </script>
+</body>
+</html>`
