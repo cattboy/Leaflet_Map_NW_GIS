@@ -144,22 +144,7 @@
 console.log(xOffset + " y off " + yOffset);
 
     // var bounds2 = [[0, 6000], [9700, 14300.0]];
-var map = L.map('map', {
-        // preferCanvas: true,
-        // trackResize: false,
-        zoom: 0,
-        minZoom: 0,
-        maxZoom: 8,
-        zoomSnap: 0.25,  //change to make the map zoom in slower, lower is slower
-        zoomDelta: 0.25, //change to make the map zoom in slower, lower is slower
-        wheelPxPerZoomLevel: 200, //change to make the map zoom in slower, HIGHER is slower
-        attributionControl: false,
-        // zoomControl: false, //The +/- Control buttons default true
-        continuousWorld: false,
-        //preferCanvas: true,
-        scrollWheelZoom: true,
-        crs: L.CRS.Simple
-    }).setView([0, 0], 0);
+
     // });
     // map.setView([0, 6000], 0);
     // map.setView(map.unproject([0, 6000]), 0);
@@ -203,7 +188,7 @@ var map = L.map('map', {
 
 ///everything above this is the old map^^^
 
- L.tileLayer('2topwr15_NewMap_Tiles512_Compressed/{z}/{x}/{y}.png', { //tileSize: 512 //looks very good
+ var osmMap = L.tileLayer('2topwr15_NewMap_Tiles512_Compressed/{z}/{x}/{y}.png', { //tileSize: 512 //looks very good
 
 
 
@@ -219,7 +204,28 @@ var map = L.map('map', {
         minZoom: -1,
         // zoomOffset: 1,
         crs: L.CRS.Simple
-    }).addTo(map);
+    });
+
+
+
+var map = L.map('map', {
+        // preferCanvas: true,
+        // trackResize: false,
+        layers: [osmMap], // only add one!
+        zoom: 0,
+        minZoom: -10,
+        maxZoom: 8,
+        zoomSnap: 0.25,  //change to make the map zoom in slower, lower is slower
+        zoomDelta: 0.25, //change to make the map zoom in slower, lower is slower
+        wheelPxPerZoomLevel: 200, //change to make the map zoom in slower, HIGHER is slower
+        attributionControl: false,
+        // zoomControl: false, //The +/- Control buttons default true
+        continuousWorld: false,
+        //preferCanvas: true,
+        scrollWheelZoom: true,
+        crs: L.CRS.Simple
+    }).setView([0, 0], 0);
+
 
 L.control.zoomLabel().addTo(map);
 
@@ -244,6 +250,47 @@ L.control.zoomLabel().addTo(map);
 
 // WORKING AREA
 // WORKING AREA
+var coolPlaces = new L.LayerGroup();
+        //Outposts
+        L.marker([-41.29042, 174.78219])
+            .bindPopup('Te Papa').addTo(coolPlaces),
+        L.marker([-41.29437, 174.78405])
+            .bindPopup('Embassy Theatre').addTo(coolPlaces),
+        L.marker([-41.2895, 174.77803])
+            .bindPopup('Michael Fowler Centre').addTo(coolPlaces),
+        L.marker([-41.28313, 174.77736])
+            .bindPopup('Leuven Belgin Beer Cafe').addTo(coolPlaces),
+        L.polyline([
+            [-41.28313, 174.77736],
+            [-41.2895, 174.77803],
+            [-41.29042, 174.78219],
+            [-41.29437, 174.78405]
+            ]
+            ).addTo(coolPlaces);
+
+      
+
+
+  var testing_map_contents = new L.LayerGroup();
+
+
+//This is hte long drawn out version
+  var pointInGame =   {"x": 6817.0673828125,  "y": 207.3566131591797}; //points taken from PAK
+  var markerLocation = convertIngameCordtoLatLng(pointInGame);
+  var marker3 = L.marker(markerLocation).addTo(testing_map_contents);
+  marker3.bindPopup('25m Claim!').openPopup();
+
+//Simplified version
+  var marker3 = L.marker(convertIngameCordtoLatLng({"x": 7017.0673828125,  "y": 207.3566131591797})).addTo(testing_map_contents);
+  marker3.bindPopup('25m Claim2!').openPopup();
+
+
+
+// // // This needs to be lat: -6.483323023371554, lng: -243.79630050123433
+ 
+       
+
+
 
 
 // WORKING AREA
@@ -322,6 +369,9 @@ L.geoJSON(geoJsonDataLines, {
 
 
 // WORKING AREA   /// This is all the polygons for the lawless/outposts/claims
+
+var polygon_claims = new L.LayerGroup();
+
 var polygon_claim_lawless = [{
     "type": "Feature",
     "properties": {"area_type": "Claim"},
@@ -387,8 +437,20 @@ L.geoJSON(polygon_claim_lawless, {
             case 'Outpost': return {color: "#24ce24", "weight": 2.5, "opacity": 0.75} ;
         }
     }
-}).addTo(map);
+}).addTo(polygon_claims);
+    var baseLayers = {
+      "New World": osmMap
+    };
+    ///I need to play around with hiding the context of leaflet-control-layers-base text in CSS
+    //$('.leaflet-control-layers').hide();  or leaflet-control-layers-base (is the base layer texti want to hide)
 
+    var overlays = {
+      "Interesting places": coolPlaces,
+      "Claims": polygon_claims,
+      "Testing Map Contents": testing_map_contents,
+    };
+
+    L.control.layers(baseLayers,overlays).addTo(map);
 
 // WORKING AREA 
 //TEST #1
@@ -461,25 +523,27 @@ var myIcon = L.icon({
     // shadowSize: [68, 95],
     // shadowAnchor: [22, 94]
 });
-L.marker([0, 0], {icon: myIcon}).addTo(map);
+L.marker([0, 0], {icon: myIcon}).addTo(coolPlaces);
 
 
 // WORKING AREA
 // WORKING AREA  //this is where we will click the map, and give users a chance to submit there details of the item they select
 
-
+//WORKS
 //This opens a pop up on left click that shows the area they clicked
-var popup = L.popup();
+//WORKS BUT IS IN WRONG FORMAT
 
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("You clicked the map at " + e.latlng.toString())
-        .openOn(map);
-}
+// var popup = L.popup();
 
-map.on('click', onMapClick);
+// function onMapClick(e) {
+//     popup
+//         .setLatLng(e.latlng)
+//         .setContent("You clicked the map at " + e.latlng.toString())
+//         .openOn(map);
+// }
 
+// map.on('click', onMapClick);
+//WORKS
 
 
 
@@ -576,11 +640,14 @@ map.on('click', function(e) {
 
 
 function doStuff(e) {
-  // console.log(e.latlng);
-  // // coordinates in tile space
-  // var x = e.layerPoint.x;
-  // var y = e.layerPoint.y;
-  // console.log([x, y]);
+  console.log("e.latlng: " + e.latlng);
+  // coordinates in tile space
+  var x = e.layerPoint.x;
+  var y = e.layerPoint.y;
+  console.log("e.layerpoint.x: & e.layerpoint.y: " + [x, y]);
+  console.log("e.layerpoint.x:" + x);
+  console.log("e.layerpoint.y:" + y);
+
 
   // // calculate point in xy space
   // var pointXY = L.point(x, y);
@@ -611,17 +678,17 @@ function doStuff(e) {
 ////This will collect the pixels location whe nclicking the map
 
  var xy = this.map.project([e.latlng.lat,e.latlng.lng],6); //(we need to change the zoom level 6-7 depending on the map's max zoom
-      console.log("this is the pixel count location: " + xy);
+      console.log("this is the pixel count location on the map: " + xy);
 
       //This returns the in-game value...
-var  xy2 = [xy.x/xOffset,(height-xy.y)/yOffset];
+// var  xy2 = [xy.x/xOffset,(height-xy.y)/yOffset];
 
- console.log("this is the ingame location: " + xy2);
+//  console.log("this is the maps pixel' location: " + xy2);
 
 
 var xy3 = convertToInGameCords(xy);
 
-console.log("testing cordconversion x: " + xy3.x + " & testing cordconversiony : " + xy3.y);
+console.log("this is after converting the cords using the offset, now the ingame cords are x,y: (" + xy3.x + "," + xy3.y + ")");
 
 //adds a marker at the click location
 // var marker2 = L.marker([e.latlng.lat,e.latlng.lng]).addTo(map);
@@ -629,28 +696,98 @@ console.log("testing cordconversion x: " + xy3.x + " & testing cordconversiony :
 }
 
   
-function convertToInGameCords(ingamecoords) {
+function convertToInGameCords(latlngcoords) {
+//THis will take a lat_lng cord and turn it into an in game coordinate
+// console.log("inside convertToInGameCords x,y " + latlngcoords );
+  var translateFactors = 
+    {
+      "x": (latlngcoords.x / xOffset),
+      "y":  ((height-latlngcoords.y) / yOffset)
+    };
 
-console.log("inside convertToInGameCords x,y " + ingamecoords );
-          var translateFactors = 
-          {
-            "x": (ingamecoords.x / xOffset),
-            "y":  ((height-ingamecoords.y) / yOffset)
-          };
+  return translateFactors;
+}
 
-        return translateFactors;
+function convertIngameCordtoLatLng(ingamecoords) {
+//notes
+//1st we need to take the cords, 
+//2nd  we multiple by the offset
+//3rd we convert to latlang
+//have cords, split them, do math, make point, unproject, return latlng reverse and add to marker waypoint
+//This will take an in-game coordinate and turn it into a lat_lng for the map to use
+
+
+
+  console.log("inside convertIngameCordtoLatLng just starting x,y " +  + ingamecoords.x + " a: " + ingamecoords.y  );
+  var translateFactors = 
+    {
+      "x": (ingamecoords.x * xOffset),
+      "y":  (ingamecoords.y * yOffset) + (height-59)
+    };
+  console.log("inside convertIngameCordtoLatLng AFTER x,y offset math " + translateFactors.x + " a: " + translateFactors.y );
+
+  var pointXY = L.point(translateFactors.x, translateFactors.y);
+  console.log("inside convertIngameCordtoLatLng AFTER pointXY " + pointXY.x);
+
+  var xy4 = map.unproject(pointXY,6);  //change depending on map zoom level
+  console.log("UNPROJECT xy4 " + xy4);
+
+  //reverse the order
+  var xy5 = [(-1*xy4.lat), xy4.lng];
+  console.log("reverse the order xy5 " + xy5);
+  
+  return xy5;
 }
 
 
-// var sourceCoords = [{ "x": 4928, "y": 31680 }];
-// var targetCoords = [{ "x": 2155.69921875, "y": 475.93359375 }];
-// console.log("targetCoords x " + sourceCoords[0].x, "targetCoords y  " + sourceCoords[0].y, );
-// console.log("targetCoords x " + targetCoords[0].x, "targetCoords y  " + targetCoords[0].y, );
 
 
- var marker2 = L.marker([0, 6000]).addTo(map);
+
+//  var xy8 = this.map.project([xy4.lat,xy4.lng],6); //(we need to change the zoom level 6-7 depending on the map's max zoom
+//       console.log("now lets convert the unproject into project " + xy4);
+
+// var xy9 = convertToInGameCords(xy8);
+
+// console.log("now we convert that into the cords and add a marker x: " + xy9.x + " & testing cordconversiony : " + xy9.y);
+
+
+//  var xy14 = convertToInLatLangCords(L.point([6817.0673828125,207.3566131591797]));
+
+
+
+//  console.log("inside convertToInLatLangCords AFTER xy14 " + xy14[0]);
+//  console.log("testing cordconversion x: " + xy14.x + " & testing cordconversiony : " + xy14.y);
+
+
+
+// let point = L.point(6817.0673828125,207.3566131591797); // x=0,y=0
+//  console.log("point =  " + point);
+// // // This needs to be lat: -6.483323023371554, lng: -243.79630050123433
+
+// let latlng = map.layerPointToLatLng(point);
+
+//  console.log("latlng =  " + latlng);
+
+          // var xy5 = convertToInGameCords(xy4);
+        //   var xy3 = convertToInLatLangCords(6817.0673828125,207.3566131591797);
+
+        // // var marker3 = L.marker([xy3]).addTo(map);
+        // // marker3.bindPopup('25m Claim!').openPopup();
+
+
+        // //adds it but in the wrong position        
+        // // var marker3 = L.marker([6817.0673828125,207.3566131591797]).addTo(map);
+        // // marker3.bindPopup('25m Claim!').openPopup();
+
+
+        // var marker3 = L.marker([xy3.x, xy3.y]).addTo(map);
+        // marker3.bindPopup('25m Claim!').openPopup();
+
+ 
+
 
         var marker = L.marker([0, 0]).addTo(map);
+        marker.bindPopup('ABERTON!').openPopup();
         var sidebar = L.control.sidebar('sidebar').addTo(map);
     </script>
 </body>
