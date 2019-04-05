@@ -931,4 +931,4 @@ function convertIngameCordtoLatLng(ingamecoords) {
         var sidebar = L.control.sidebar('sidebar').addTo(map);
     </script>
 </body>
-</html>`
+</html>
