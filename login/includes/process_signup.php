@@ -91,7 +91,7 @@
 						mysqli_stmt_bind_param($stmt, "ssss", $username, $hashedPassword, $email, $forum_name);
 						mysqli_stmt_execute($stmt);
 						//User created account successfully
-						header("Location: ../signup.php?signup=success");
+						header("Location: ../login.php?signup=success");
 						exit();
 					}
 
