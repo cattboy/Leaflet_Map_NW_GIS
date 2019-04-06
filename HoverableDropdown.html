@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script> -->
+
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.serializeObject/2.0.3/jquery.serializeObject.min.js"></script> -->
+
+<script src="1_WorkingJS/submit_popup_to_map.js"></script>
+ <script src="1_WorkingJS/airman_example_hide_dropdowns.js"></script>
+<!-- <script src="serializeinputs.js"></script> -->
+
+
+</head>
+<body>
+
+
+  <form id="node_submission_form2" onsubmit="return false;">  <!-- onsubmit="return false;" -- this will make the page to not reload -->
+    <div class="node_submission_form_group" id="types">
+      <select class="form-control" id="node_resource">
+        <option selected disabled value="disabled">Select Harvesting Type</option>
+        <option value="mining_pick">Mining Pick</option>
+        <option value="lumberjacking_axe">Lumberjacking Axe</option>
+        <option value="sickle_">Sickle</option>
+        <option value="skinning_knife">Skinning Knife</option>
+        <option value="hands_">Hands</option>
+      </select> 
+    </div>
+
+    <div class="container_node_resource">
+      <div class="mining_pick">
+         Harvesting Node Type for mining_pick
+         <br>
+         <select id="mining_pick">
+          <option value="resource_iron_ore">Iron_ore</option>
+          <option value="resource_gold_ore">gold_ore</option>
+        </select>
+      </div>
+      <div class="lumberjacking_axe">
+        Harvesting Node Type for lumberjacking_axe
+        <br>      
+        <select id="lumberjacking_axe">
+          <option value="resource_wyrdwood">Wyrdwood</option>
+          <option value="resource_ironwood">Ironwood</option>
+        </select>
+      </div>
+      <div class="sickle_">
+        Harvesting Node Type for sickle_
+        <br>
+        <select id="sickle_">
+          <option value="resource_herbs">Herbs</option>
+          <option value="resource_hemp">Hemp</option>
+        </select>
+      </div>
+      <div class="skinning_knife">
+        Harvesting Node Type for skinning_knife
+        <br>
+          <select id="skinning_knife">
+          <option value="mobspawn_wolf">Wolf Spawn</option>
+          <option value="mobspawn_bear">Bear Spawn</option>
+        </select>
+      </div>
+      <div class="hands_">
+        Harvesting Node Type for hands_
+        <br>
+          <select id="hands_">
+          <option value="poi_abandon_chest">Abandon Chest</option>
+          <option value="poi_turkeynest">Turkey Nest</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- <input type="submit" value="submit">Submit to map! -->
+    <button type="submit" class="btn btn-primary" value="submit">Submit to map!</button>
+
+  </form>
+
+</body>
+</html>
