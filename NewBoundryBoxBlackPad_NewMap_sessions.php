@@ -9,6 +9,7 @@ if (!isset($_SESSION['sessionID']))
 }
 ?>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,14 +28,16 @@ if (!isset($_SESSION['sessionID']))
 	
 	
 
-	<link rel="stylesheet" href="leaflet/leaflet.css" />
-    <link rel="stylesheet" href="css/leaflet-sidebar.css" />
- <link rel="stylesheet" href="ZoomLabel/L.Control.ZoomLabel.css" />
+  <link rel="stylesheet" href="leaflet/leaflet.css" />
+  <link rel="stylesheet" href="css/leaflet-sidebar.css" />
+  <link rel="stylesheet" href="ZoomLabel/L.Control.ZoomLabel.css" />
 
 
   <script src="leaflet/leaflet.js"></script>
-    <script src="js/leaflet-sidebar.js"></script>
-      <script src="ZoomLabel/L.Control.ZoomLabel.js"></script>
+  <script src="js/leaflet-sidebar.js"></script>
+  <script src="ZoomLabel/L.Control.ZoomLabel.js"></script>
+  <!-- <script src="1_WorkingJS\airman_example_hide_dropdowns.js"></script> -->
+  <!-- <script src="popup/popup_submit.js"></script>    -->
       
       <!-- //NEED TO REPLACE WITH LOCALLY HOSTED FILES -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -507,7 +510,6 @@ L.geoJSON(geoJsonDataLines, {
 
 
 
-
 // WORKING AREA   /// This is all the polygons for the lawless/outposts/claims
 
 var polygon_claims = new L.LayerGroup();
@@ -518,38 +520,36 @@ var polygon_claim_lawless = [{
     "geometry": {
  "type": "Polygon",
   "coordinates": [
-    // [
-    //   [-12,5967      ],
-    //   [        -87,        5830      ],
-    //   [        -181,        5953      ],
-    //   [        -106,        6105      ],
-    //   [        -12,        5967      ]
-    // ]
-
 
     [
-      [5967, -12      ],
-      [              5830,-87      ],
-      [        5953,-181              ],
-      [               6105,-106      ],
-      [        5967, -12              ]
+      convertIngameCordtoLatLng({"y": 10261.255248576756, "x": 9503.611767902165}),
+      convertIngameCordtoLatLng({"y": 10311.279116067784, "x": 9544.798845089628}),
+      convertIngameCordtoLatLng({"y": 10262.726538797078, "x": 9575.689152980227}),
+      convertIngameCordtoLatLng({"y": 10236.24331483124, "x": 9546.269812132039}),
+      convertIngameCordtoLatLng({"y": 10261.255248576756, "x": 9503.611767902165})
     ]
 
 
-    ]}
+    ]
+  }
 }, {
     "type": "Feature",
     "properties": {"area_type": "Lawless"},
     "geometry": {  
   "type": "Polygon",
   "coordinates": [
-    [      
-    [         5950, 40             ],
-      [               6000,  60     ],
-      [                6100,55      ],
-      [                5950,40     ]
+
+    [
+      convertIngameCordtoLatLng({"y": 9468.262924918854 ,"x": 9391.9488954828}),
+
+      convertIngameCordtoLatLng({"y": 9861.518737251314 ,"x": 9331.6213107886}),
+      convertIngameCordtoLatLng({"y": 9898.971671759165 ,"x": 9560.450080318324}),
+      convertIngameCordtoLatLng({"y": 9432.329800562891 ,"x": 9618.91033652488}),
+      convertIngameCordtoLatLng({"y": 9468.262924918854,"x": 9391.9488954828})
     ]
-    ]}
+    ]
+
+  }
 }, {
     "type": "Feature",
     "properties": {"area_type": "Outpost"},
@@ -666,28 +666,10 @@ var myIcon = L.icon({
 L.marker([0, 0], {icon: myIcon}).addTo(coolPlaces);
 
 
-// WORKING AREA
-// WORKING AREA  //this is where we will click the map, and give users a chance to submit there details of the item they select
-
-//WORKS
-//This opens a pop up on left click that shows the area they clicked
-//WORKS BUT IS IN WRONG FORMAT
-
-// var popup = L.popup();
-
-// function onMapClick(e) {
-//     popup
-//         .setLatLng(e.latlng)
-//         .setContent("You clicked the map at " + e.latlng.toString())
-//         .openOn(map);
-// }
-
-// map.on('click', onMapClick);
-//WORKS
-
 
 
 //This opens a pop up on right click and has a submission form for the area they clicked
+var submit_Loc_popup = L.popup();
 
 map.on('contextmenu', onPopupBoxSubmit);
 
@@ -699,7 +681,7 @@ function onPopupBoxSubmit(eb) {
          console.log(xy);
        var coords3 = convertToInGameCords(xy);
           console.log(coords3);
-          var popupContent = '<form role="form" id="form" enctype="multipart/form-data" class = "form-horizontal" onsubmit="addMarker()">'+
+          var popupContent = '<form role="form" id="form-popup-submit" enctype="multipart/form-data" class = "form-horizontal" onsubmit="addMarker()">'+
           // '<div class="form-group">'+
           //     '<label class="control-label col-sm-5"><strong>Date: </strong></label>'+
           //     '<input type="date" placeholder="Required" id="date" name="date" class="form-control"/>'+ 
@@ -744,8 +726,7 @@ function onPopupBoxSubmit(eb) {
           // '<input style="display: none;" type="text" id="lat" name="lat" value="'+coords3.x+'" />'+
           // '<input style="display: none;" type="text" id="lng" name="lng" value="'+coords3.y+'" />'+
           '<div class="form-group">'+
-            '<div style="text-align:center;" class="col-xs-4 col-xs-offset-2"><button type="button" class="btn">Cancel</button></div>'+
-            '<div style="text-align:center;" class="col-xs-4"><button type="submit" value="submit" class="btn btn-primary trigger-submit">Submit</button></div>'+
+            '<div style="text-align:center;" class="col-xs-4"><button type="submit" value="submit-popup-form" class="btn btn-primary trigger-submit">Submit</button></div>'+
           '</div>'+
 
 
@@ -755,13 +736,15 @@ function onPopupBoxSubmit(eb) {
 
           '</form>';
 
-         popup
+         submit_Loc_popup
             .setLatLng(eb.latlng)
             // .setContent(popupContent + eb.latlng.toString())
             .setContent(popupContent + "X: "+coords3.x+" Y: "+coords3.y)
             .openOn(map);
-      };
 
+
+
+      };
 
 
 
@@ -873,7 +856,11 @@ function convertIngameCordtoLatLng(ingamecoords) {
   console.log("UNPROJECT xy4 " + xy4);
 
   //reverse the order
-  var xy5 = [(-1*xy4.lat), xy4.lng];
+  var xy5 = [(-1*xy4.lat), xy4.lng];  //working
+  // var xy5 = [xy4.lng, (-1*xy4.lng)];
+   // var xy5 = [xy4.lat, xy4.lng];
+
+
   console.log("reverse the order xy5 " + xy5);
   
   return xy5;
