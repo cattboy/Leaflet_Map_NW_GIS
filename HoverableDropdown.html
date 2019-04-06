@@ -15,7 +15,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.serializeObject/2.0.3/jquery.serializeObject.min.js"></script> -->
 
-<script src="1_WorkingJS/submit_popup_to_map.js"></script>
+<script src="1_WorkingJS/submit_popup_to_mapv2.js"></script>
  <script src="1_WorkingJS/airman_example_hide_dropdowns.js"></script>
 <!-- <script src="serializeinputs.js"></script> -->
 
@@ -28,53 +28,64 @@
     <div class="node_submission_form_group" id="types">
       <select class="form-control" id="node_resource">
         <option selected disabled value="disabled">Select Harvesting Type</option>
-        <option value="mining_pick">Mining Pick</option>
-        <option value="lumberjacking_axe">Lumberjacking Axe</option>
-        <option value="sickle_">Sickle</option>
-        <option value="skinning_knife">Skinning Knife</option>
-        <option value="hands_">Hands</option>
+        <option value="resource_mining">Mining Pick</option>
+        <option value="resource_lumberjacking">Lumberjacking Axe</option>
+        <option value="resource_sickle">Sickle</option>
+        <option value="resource_monster">Monster Spawn</option>
+        <option value="resource_hands">Collect with hands</option>
+        <option value="resource_poi">Point of Interest (PoI)</option>       
       </select> 
     </div>
 
     <div class="container_node_resource">
-      <div class="mining_pick">
-         Harvesting Node Type for mining_pick
+      <div class="resource_mining">
+         Harvesting Node Type for resource_mining
          <br>
-         <select id="mining_pick">
+         <select id="resource_mining">
           <option value="resource_iron_ore">Iron_ore</option>
           <option value="resource_gold_ore">gold_ore</option>
+          <option value="resource_silver_ore">silver_ore</option>
         </select>
       </div>
-      <div class="lumberjacking_axe">
-        Harvesting Node Type for lumberjacking_axe
+      <div class="resource_lumberjacking">
+        Harvesting Node Type for resource_lumberjacking
         <br>      
-        <select id="lumberjacking_axe">
+        <select id="resource_lumberjacking">
           <option value="resource_wyrdwood">Wyrdwood</option>
           <option value="resource_ironwood">Ironwood</option>
         </select>
       </div>
-      <div class="sickle_">
-        Harvesting Node Type for sickle_
+      <div class="resource_sickle">
+        Harvesting Node Type for resource_sickle
         <br>
-        <select id="sickle_">
+        <select id="resource_sickle">
           <option value="resource_herbs">Herbs</option>
           <option value="resource_hemp">Hemp</option>
         </select>
       </div>
-      <div class="skinning_knife">
-        Harvesting Node Type for skinning_knife
+      <div class="resource_monster">
+        Harvesting Node Type for resource_monster
         <br>
-          <select id="skinning_knife">
+          <select id="resource_monster">
           <option value="mobspawn_wolf">Wolf Spawn</option>
           <option value="mobspawn_bear">Bear Spawn</option>
         </select>
       </div>
-      <div class="hands_">
-        Harvesting Node Type for hands_
+      <div class="resource_hands">
+        Harvesting Node Type for resource_hands
         <br>
-          <select id="hands_">
-          <option value="poi_abandon_chest">Abandon Chest</option>
-          <option value="poi_turkeynest">Turkey Nest</option>
+          <select id="resource_hands">
+          <option value="resource_abandon_chest">Abandon Chest</option>
+          <option value="resource_turkeynest">Turkey Nest</option>
+        </select>
+      </div>
+
+      <div class="resource_poi">
+        Harvesting Node Type for resource_poi
+        <br>
+          <select id="resource_poi">
+          <option value="poi_abandon_alchemy_house">Abandon Alchemy House</option>
+          <option value="poi_abandon_fishing_village">Abandon Fishing House</option>
         </select>
       </div>
     </div>
