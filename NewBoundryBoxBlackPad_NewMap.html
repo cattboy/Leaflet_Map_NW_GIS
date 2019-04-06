@@ -1,3 +1,14 @@
+<!-- <?php
+session_start();
+if (!isset($_SESSION['sessionID']))
+{
+    echo "Inside map but session not set " . $_SESSION["sessionID"] . ".";
+    header("Location: /htdocs/login5_sessions/login.php");
+    die();
+    //exit()
+}
+?> -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,14 +27,16 @@
 	
 	
 
-	<link rel="stylesheet" href="leaflet/leaflet.css" />
-    <link rel="stylesheet" href="css/leaflet-sidebar.css" />
- <link rel="stylesheet" href="ZoomLabel/L.Control.ZoomLabel.css" />
+  <link rel="stylesheet" href="leaflet/leaflet.css" />
+  <link rel="stylesheet" href="css/leaflet-sidebar.css" />
+  <link rel="stylesheet" href="ZoomLabel/L.Control.ZoomLabel.css" />
 
 
   <script src="leaflet/leaflet.js"></script>
-    <script src="js/leaflet-sidebar.js"></script>
-      <script src="ZoomLabel/L.Control.ZoomLabel.js"></script>
+  <script src="js/leaflet-sidebar.js"></script>
+  <script src="ZoomLabel/L.Control.ZoomLabel.js"></script>
+  <!-- <script src="1_WorkingJS\airman_example_hide_dropdowns.js"></script> -->
+  <!-- <script src="popup/popup_submit.js"></script>    -->
       
       <!-- //NEED TO REPLACE WITH LOCALLY HOSTED FILES -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -224,7 +237,7 @@ var map = L.map('map', {
         //preferCanvas: true,
         scrollWheelZoom: true,
         crs: L.CRS.Simple
-    }).setView([0, 0], 0);
+    }).setView([-340.303088, -344.976769], 4);
 
 
 L.control.zoomLabel().addTo(map);
@@ -275,10 +288,11 @@ var coolPlaces = new L.LayerGroup();
 
 
 //This is hte long drawn out version
-  var pointInGame =   {"x": 6817.0673828125,  "y": 207.3566131591797}; //points taken from PAK
-  var markerLocation = convertIngameCordtoLatLng(pointInGame);
-  var marker3 = L.marker(markerLocation).addTo(testing_map_contents);
-  marker3.bindPopup('25m Claim!').openPopup();
+// // // This needs to be lat: -6.483323023371554, lng: -243.79630050123433 , but came up wrong so I added some extra subrract into the covnertingamecordstolatlng
+  // var pointInGame =   {"x": 6817.0673828125,  "y": 207.3566131591797}; //points taken from PAK
+  // var markerLocation = convertIngameCordtoLatLng(pointInGame);
+  // var marker3 = L.marker(markerLocation).addTo(testing_map_contents);
+  // marker3.bindPopup('25m Claim!').openPopup();
 
 //Simplified version
   var marker3 = L.marker(convertIngameCordtoLatLng({"x": 7017.0673828125,  "y": 207.3566131591797})).addTo(testing_map_contents);
@@ -286,9 +300,137 @@ var coolPlaces = new L.LayerGroup();
 
 
 
-// // // This needs to be lat: -6.483323023371554, lng: -243.79630050123433
+//Outposts
+
+
+// Wind's Edge
+// Windsfield  
+// Weaver Post
+// Weaver Station
+// Weaver's Peak
+// Brightmark
+// Brightwatch
+// Monarch Station
+// Consolation Post
+// Cleave's Point
+// Cleaveshold
+// Mountainpass
+
+/////////////////////////////////////
+// Mountainhome
+//          "id": "e6ba90a2-b9d6-a3a8-99fe-501791ea3524",
+//             "worldPosition": {
+//                 "x": 10657.3388671875,
+//                 "y": 9069.2900390625,
+//                 "z": 559.0343017578125
+
+//                 "innerRadius": 35.0,
+//                 "outerRadius": 60.0,
+//                 "maxHeightBlend": 1.0,
+//                 "edgeNoise": 0.25,
+//                 "edgeNoiseFeatureSize": 8.0,
+//                 "groundNoiseScale": 0.25
+//             },
+//             "stringParams": [
+//                 {
+//                     "key": "MAP_ICON_PATH",
+//                     "value": "LyShineUI/Images/Map/Icon/POIs/outpost.png"
+//                     "key": "USER_FACE_NAME_LOC_KEY",
+//                     "value": "ui_poi_outpost_54_1"
+//                 },
+//                 {
+//                     "key": "FOOTPRINT_MESH_PATH",
+//                     "value": "/Assets/Objects/POIs/Terrain/Footprints/Claims/Footprint_Claim_40m.obj"
+
+////////////////////////////////////////////////////////////////
+
+
+
+
+
+// Firstlight Station
+
+
+//Lawless areas
+
+//Need to add POLY LINES for it
+// Myrkgard
+// Svikin
+// Brightwood Isle
+
+
+//Claims
+
+
+
+//---------------------------------------------------------------
+//Taken from C:\Program Files (x86)\Amazon Games\Games Library\f2f504d9-d5a9-4937-834b-c9fda1cbea23\Assets\Config.pak\sharedassets\coatlicue\newworld_vitaeeterna\regions\r_+05_+04\capitals\
+
+// Mettle
+//      "x": 10596.578125
+//             "y": 9173.2216796875,
+  var marker4 = L.marker(convertIngameCordtoLatLng({"x": 10612.0302734375,  "y": 9485.013671875})).addTo(testing_map_contents);
+  marker4.bindPopup('Mettle').openPopup();
+
+//Lundsar
+// "x": 10603.716796875,
+//                 "y": 9254.3916015625,
+  var marker4 = L.marker(convertIngameCordtoLatLng({"x": 10596.578125,  "y": 9173.2216796875})).addTo(testing_map_contents);
+  marker4.bindPopup('Lundsar').openPopup();
+
+// Ouldinger
+ // "x": 10362.80859375,
+ //                "y": 8942.8994140625,
+
+  var marker4 = L.marker(convertIngameCordtoLatLng({"x": 10362.80859375,  "y": 8942.8994140625})).addTo(testing_map_contents);
+  marker4.bindPopup('Ouldinger').openPopup();
+//---------------------------------------------------------------
+
+
+
+
+//---------------------------------------------------------------
+//Taken from C:\Program Files (x86)\Amazon Games\Games Library\f2f504d9-d5a9-4937-834b-c9fda1cbea23\Assets\Config.pak\sharedassets\coatlicue\newworld_vitaeeterna\regions\r_+05_+03\capitals\
+
+//Soddenswale
+var claim = {"x": 11167.1396484375,
+                "y": 6328.24072265625};
  
-       
+ var marker4 = L.marker(convertIngameCordtoLatLng(claim)).addTo(testing_map_contents);
+  marker4.bindPopup('Soddenswale').openPopup();
+
+
+
+
+
+//---------------------------------------------------------------
+// C:\Program Files (x86)\Amazon Games\Games Library\f2f504d9-d5a9-4937-834b-c9fda1cbea23\Assets\Config.pak\sharedassets\coatlicue\newworld_vitaeeterna\regions\r_+05_+02\capitals\
+//Mallorys Notch
+var claim = {"x": 11718.1318359375,
+                "y": 6008.837890625};
+ 
+ var marker4 = L.marker(convertIngameCordtoLatLng(claim)).addTo(testing_map_contents);
+  marker4.bindPopup('Mallorys Notch').openPopup();
+
+
+
+
+
+
+// Monster Spawns
+
+//Caves
+
+//Temples (POIs?)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -367,7 +509,6 @@ L.geoJSON(geoJsonDataLines, {
 
 
 
-
 // WORKING AREA   /// This is all the polygons for the lawless/outposts/claims
 
 var polygon_claims = new L.LayerGroup();
@@ -378,39 +519,78 @@ var polygon_claim_lawless = [{
     "geometry": {
  "type": "Polygon",
   "coordinates": [
-    // [
-    //   [-12,5967      ],
-    //   [        -87,        5830      ],
-    //   [        -181,        5953      ],
-    //   [        -106,        6105      ],
-    //   [        -12,        5967      ]
-    // ]
-
 
     [
-      [5967, -12      ],
-      [              5830,-87      ],
-      [        5953,-181              ],
-      [               6105,-106      ],
-      [        5967, -12              ]
+      convertIngameCordtoLatLng({"y": 10261.255248576756, "x": 9503.611767902165}),
+      convertIngameCordtoLatLng({"y": 10311.279116067784, "x": 9544.798845089628}),
+      convertIngameCordtoLatLng({"y": 10262.726538797078, "x": 9575.689152980227}),
+      convertIngameCordtoLatLng({"y": 10236.24331483124, "x": 9546.269812132039}),
+      convertIngameCordtoLatLng({"y": 10261.255248576756, "x": 9503.611767902165})
     ]
 
 
-    ]}
+    ]
+  }
 }, {
     "type": "Feature",
     "properties": {"area_type": "Lawless"},
     "geometry": {  
   "type": "Polygon",
   "coordinates": [
-    [      
-    [         5950, 40             ],
-      [               6000,  60     ],
-      [                6100,55      ],
-      [                5950,40     ]
+
+    [
+      convertIngameCordtoLatLng({"x": 9376.156807302901, "y": 9422.424594215221}),
+
+      convertIngameCordtoLatLng({"x": 9376.156807302901, "y": 9512.532537324769}),
+      convertIngameCordtoLatLng({"x": 9366.535742702677, "y": 9663.004053973724}),
+      convertIngameCordtoLatLng({"x": 9259.392042053683, "y": 9818.169422400242}),
+
+      convertIngameCordtoLatLng({"x": 9325.27613408778, "y": 9912.668383834314}),
+      convertIngameCordtoLatLng({"x": 9411.129769319865, "y": 9934.218040460608}),
+      convertIngameCordtoLatLng({"x": 9521.365331233705, "y": 9976.212311677304}),
+
+      convertIngameCordtoLatLng({"x": 9600.486808407366, "y": 9928.752545524945}),
+      convertIngameCordtoLatLng({"x": 9748.30134635625, "y": 9724.041296130437}),
+      convertIngameCordtoLatLng({"x": 9747.071581041293, "y": 9633.260903259421}),
+
+      convertIngameCordtoLatLng({"x": 9614.125961110938, "y": 9442.54700425086}),
+      convertIngameCordtoLatLng({"x": 9517.107963310491, "y": 9413.307357102454}),
+  
+
+
+
+      convertIngameCordtoLatLng({"x": 9376.156807302901, "y": 9422.424594215221})
     ]
-    ]}
+    ]
+
+  }
 }, {
+    "type": "Feature",
+    "properties": {"area_type": "Lawless"},
+    "geometry": {  
+  "type": "Polygon",
+  "coordinates": [
+
+    [
+      convertIngameCordtoLatLng({"x": 5538.927359015402, "y": 9418.878057954276}),
+      convertIngameCordtoLatLng({"x": 5517.481781595481, "y": 9478.155819620499}),
+      convertIngameCordtoLatLng({"x": 5395.906510738114, "y": 9556.878845675385}),
+      convertIngameCordtoLatLng({"x": 5328.559058536552, "y": 9611.110263624305}),
+      convertIngameCordtoLatLng({"x": 5301.445149208649, "y": 9687.209188810695}),
+      convertIngameCordtoLatLng({"x": 5356.547610100836, "y": 9709.076696048163}),
+      convertIngameCordtoLatLng({"x": 5483.370734376506, "y": 9716.948998653652}),
+      convertIngameCordtoLatLng({"x": 5605.820647470257, "y": 9631.228370282777}),
+      convertIngameCordtoLatLng({"x": 5604.946005233874, "y": 9429.172603408571}),
+      convertIngameCordtoLatLng({"x": 5565.587104596597, "y": 9420.425600513583}),
+      convertIngameCordtoLatLng({"x": 5538.927359015402, "y": 9418.878057954276})
+    ]
+    ]
+
+  }
+},
+
+
+{
     "type": "Feature",
     "properties": {"area_type": "Outpost"},
     "geometry": {  
@@ -526,28 +706,10 @@ var myIcon = L.icon({
 L.marker([0, 0], {icon: myIcon}).addTo(coolPlaces);
 
 
-// WORKING AREA
-// WORKING AREA  //this is where we will click the map, and give users a chance to submit there details of the item they select
-
-//WORKS
-//This opens a pop up on left click that shows the area they clicked
-//WORKS BUT IS IN WRONG FORMAT
-
-// var popup = L.popup();
-
-// function onMapClick(e) {
-//     popup
-//         .setLatLng(e.latlng)
-//         .setContent("You clicked the map at " + e.latlng.toString())
-//         .openOn(map);
-// }
-
-// map.on('click', onMapClick);
-//WORKS
-
 
 
 //This opens a pop up on right click and has a submission form for the area they clicked
+var submit_Loc_popup = L.popup();
 
 map.on('contextmenu', onPopupBoxSubmit);
 
@@ -559,7 +721,7 @@ function onPopupBoxSubmit(eb) {
          console.log(xy);
        var coords3 = convertToInGameCords(xy);
           console.log(coords3);
-          var popupContent = '<form role="form" id="form" enctype="multipart/form-data" class = "form-horizontal" onsubmit="addMarker()">'+
+          var popupContent = '<form role="form" id="form-popup-submit" enctype="multipart/form-data" class = "form-horizontal" onsubmit="addMarker()">'+
           // '<div class="form-group">'+
           //     '<label class="control-label col-sm-5"><strong>Date: </strong></label>'+
           //     '<input type="date" placeholder="Required" id="date" name="date" class="form-control"/>'+ 
@@ -604,8 +766,7 @@ function onPopupBoxSubmit(eb) {
           // '<input style="display: none;" type="text" id="lat" name="lat" value="'+coords3.x+'" />'+
           // '<input style="display: none;" type="text" id="lng" name="lng" value="'+coords3.y+'" />'+
           '<div class="form-group">'+
-            '<div style="text-align:center;" class="col-xs-4 col-xs-offset-2"><button type="button" class="btn">Cancel</button></div>'+
-            '<div style="text-align:center;" class="col-xs-4"><button type="submit" value="submit" class="btn btn-primary trigger-submit">Submit</button></div>'+
+            '<div style="text-align:center;" class="col-xs-4"><button type="submit" value="submit-popup-form" class="btn btn-primary trigger-submit">Submit</button></div>'+
           '</div>'+
 
 
@@ -615,13 +776,17 @@ function onPopupBoxSubmit(eb) {
 
           '</form>';
 
-         popup
+         submit_Loc_popup
             .setLatLng(eb.latlng)
             // .setContent(popupContent + eb.latlng.toString())
-            .setContent(popupContent + "X: "+coords3.x+" Y: "+coords3.y)
+            //need to reverse order if i wnat to use my function
+            .setContent(popupContent + '"x": ' +coords3.y+', "y": '+coords3.x)
+            //.setContent(popupContent + '"x": ' +coords3.x+', "y": '+coords3.y)
             .openOn(map);
-      };
 
+
+
+      };
 
 
 
@@ -722,7 +887,7 @@ function convertIngameCordtoLatLng(ingamecoords) {
   var translateFactors = 
     {
       "x": (ingamecoords.x * xOffset),
-      "y":  (ingamecoords.y * yOffset) + (height-59)
+      "y":  (ingamecoords.y * yOffset) + height
     };
   console.log("inside convertIngameCordtoLatLng AFTER x,y offset math " + translateFactors.x + " a: " + translateFactors.y );
 
@@ -733,7 +898,11 @@ function convertIngameCordtoLatLng(ingamecoords) {
   console.log("UNPROJECT xy4 " + xy4);
 
   //reverse the order
-  var xy5 = [(-1*xy4.lat), xy4.lng];
+  var xy5 = [(-1*xy4.lat), xy4.lng];  //working
+  // var xy5 = [xy4.lng, (-1*xy4.lng)];
+   // var xy5 = [xy4.lat, xy4.lng];
+
+
   console.log("reverse the order xy5 " + xy5);
   
   return xy5;
@@ -786,9 +955,9 @@ function convertIngameCordtoLatLng(ingamecoords) {
  
 
 
-        var marker = L.marker([0, 0]).addTo(map);
-        marker.bindPopup('ABERTON!').openPopup();
+        // var marker = L.marker([0, 0]).addTo(map);
+        // marker.bindPopup('ABERTON!').openPopup();
         var sidebar = L.control.sidebar('sidebar').addTo(map);
     </script>
 </body>
-</html>`
+</html>
