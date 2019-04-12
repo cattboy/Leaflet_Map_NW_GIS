@@ -1,25 +1,7 @@
 $(document).ready(function() 
 {
-	document.querySelector("#node_submission_form2").addEventListener("submit", function(e){
-	    if(!doValidation()){
-	        e.preventDefault();    //stop form from submitting
-	        //alert(selectedValue);
-	        //add database submissions here
-	        
 
-
-	        
-	    }
-	});
-
- 	
-
-
-
-	function doValidation() //Make sure they selected a Harvesting type, and return the one theey selected
-	{
-		//Need to make global
-		var myStringArray_node_resource = 
+var myStringArray_node_resource = 
 		[
 		"resource_mining",
 		"resource_lumberjacking",
@@ -90,14 +72,67 @@ $(document).ready(function()
 
 		var myStringArray_resource_poi = 
 		[
-		"poi_abandon_alchemy_house",
-		"poi_abandon_fishing_village"
+
+		"poi_abandon_fishing_village",
+		"poi_abandon_farm_village",
+		"poi_abandon_village",		
+		"poi_abandon_alchemy_house",		
+		"poi_abandon_blacksmith_house",
+		"poi_abandon_outfitting_house",
+		"poi_abandon_engineering_house",
+		"poi_abandon_provisioning_house",
+		"poi_abandon_tanning_house",
+		"poi_abandon_weaving_house",
+		"poi_abandon_smelting_house",
+		"poi_abandon_carpentry_house",
+		"poi_abandon_farm_mill",
+		"poi_abandon_campsite",
+		"poi_ancient_temple",
+		"poi_ancient_ruins",
+		"poi_ancient_great_temple",
+		"poi_ancient_tower",
+		"poi_ancient_sphere",
+		"poi_ancient_shrine",
+		"poi_ancient_shipwreck",
+		"poi_ancient_buttress",
+		"poi_ancient_lighthouse",	
+		"poi_corrupted_fort",				
+		"poi_azoth_tree",	
+		"poi_mine",
+		"poi_logging_camp",		
+		"poi_cave",
+		"poi_graveyard",
+
 		];
 
 		var myStringArray_resource_monster = 
 		[
-		"resource_wolf",
-		"resource_bear"
+		"resource_wolf_timber",
+		"resource_bear_black",
+		"resource_boar",
+		"resource_turkey",
+		"resource_elk_bull",
+		"resource_buffalo",
+		"resource_wolf_white",
+		"resource_wolf_grey",
+		"resource_wolf_ice_guardian",
+		"resource_bear_corrupted",
+		"resource_wolf_corrupted",
+		"resource_corrupted_huntsmen",
+		"resource_corrupted_pistoleer",
+		"resource_corrupted_champion",
+		"resource_corrupted_summoner",
+		"resource_corrupted_laborer",
+		"resource_corrupted_farmhand",
+		"resource_wraith_drown",
+		"resource_wraith_burning",
+		"resource_wraith_plague",
+		"resource_wraith_drown",
+		"resource_wraith",
+		"resource_ancient_keepers",
+		"resource_ancient_reavers",
+		"resource_ancient_guardian",
+		"resource_drowned_sailor"
 		];
 
 		var myStringArray_resource_hands = 
@@ -130,6 +165,70 @@ $(document).ready(function()
 		"resource_abandoned_supplies",
 		"resource_turkey_nest"
 		];
+
+
+		//Creating the Main selects for 1st drop down
+	var select = document.getElementById("node_resource");
+	// alert("select = " + select);
+	var options = myStringArray_node_resource;
+	// alert("options = " + options);
+	for(var i = 0; i < options.length; i++) {
+	    var opt = options[i];
+	    var el = document.createElement("option");
+	    el.textContent = opt;
+	    // alert("el.textContent = " + el.textContent);
+	    el.value = opt;
+	    select.appendChild(el);
+	}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// 	//Creating the Sub-Divs
+
+// 	var node = document.createElement("Div");\
+// 	var select = document.getElementById("container_node_resource");
+// 	// alert("select = " + select);
+// 	var options = myStringArray_node_resource;
+	
+// 	var options = myStringArray_node_resource;
+// 	for(var i = 0; i < options.length; i++) {
+// 	    var opt = options[i];
+// 	    var el = document.createElement("option");
+// 	    el.textContent = opt;
+// 	    // alert("el.textContent = " + el.textContent);
+// 	    el.value = opt;
+// 	    select.appendChild(el);
+// 	}
+// 	var element = document.getElementById(container_node_resource);
+// $( ".container_node_resource" ).append( "<p>Test</p>" );
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+	//On submission lets see what was selected from the Div's
+	document.querySelector("#node_submission_form2").addEventListener("submit", function(e){
+	    if(!doValidation()){
+	        e.preventDefault();    //stop form from submitting
+	        //alert(selectedValue);
+	        //add database submissions here
+	        
+
+
+	        
+	    }
+	});
+
+ 	
+
+
+
+
+	function doValidation() //Make sure they selected a Harvesting type, and return the one theey selected
+	{
+		//Need to make global
+		
 
 
 
