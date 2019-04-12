@@ -15,8 +15,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.serializeObject/2.0.3/jquery.serializeObject.min.js"></script> -->
 
-<script src="1_WorkingJS/submit_popup_to_mapv2.js"></script>
- <script src="1_WorkingJS/airman_example_hide_dropdowns.js"></script>
+<script src="1_WorkingJS/submit_popup_to_mapv3.js"></script>
+<script src="1_WorkingJS/airman_example_hide_dropdowns.js"></script>
+<!-- <script src="1_WorkingJS/array_select_options.js"></script> -->
 <!-- <script src="serializeinputs.js"></script> -->
 
 
@@ -27,13 +28,7 @@
   <form id="node_submission_form2" onsubmit="return false;">  <!-- onsubmit="return false;" -- this will make the page to not reload -->
     <div class="node_submission_form_group" id="types">
       <select class="form-control" id="node_resource">
-        <option selected disabled value="disabled">Select Harvesting Type</option>
-        <option value="resource_mining">Mining Pick</option>
-        <option value="resource_lumberjacking">Lumberjacking Axe</option>
-        <option value="resource_sickle">Sickle</option>
-        <option value="resource_monster">Monster Spawn</option>
-        <option value="resource_hands">Collect with hands</option>
-        <option value="resource_poi">Point of Interest (PoI)</option>       
+        <option selected disabled value="disabled">Select Harvesting Type</option>     
       </select> 
     </div>
 
@@ -42,9 +37,21 @@
          Harvesting Node Type for resource_mining
          <br>
          <select id="resource_mining">
-          <option value="resource_iron_ore_vein">Iron_ore</option>
-          <option value="resource_gold_ore_vein">Gold_ore</option>
-          <option value="resource_silver_ore_vein">Silver_ore</option>
+          <option value="resource_iron_ore_vein">Iron_ore_Vein</option>
+          <option value="resource_starmetal_ore_vein">Starmetal_ore_Vein</option>
+          <option value="resource_orichalcum_ore_vein">orichalcum_ore_vein</option>
+          <option value="resource_gold_ore_vein">Gold_ore_Vein</option>
+          <option value="resource_silver_ore_vein">Silver_ore_Vein</option>
+          <option value="resource_platinum_vein">Platinum_vein</option>
+          <option value="resource_crystal">crystal</option>
+          <option value="resource_lodestone">Lodestone</option>
+          <option value="resource_earthcrag">Earthcrag</option>
+          <option value="resource_scorchstone">Scorchstone</option>
+          <option value="resource_shockspire">Shockspire</option>
+          <option value="resource_springstone">Springstone</option>
+          <option value="resource_lifejewel">Lifejewel</option>
+          <option value="resource_blightcrag">Blightcrag</option>
+          <option value="resource_soulspire">Soulspire</option>
         </select>
       </div>
       <div class="resource_lumberjacking">
@@ -61,35 +68,137 @@
         <select id="resource_sickle">
           <option value="resource_herbs">Herbs</option>
           <option value="resource_hemp">Hemp</option>
+          <option value="resource_grains">Grains</option>
+          <option value="resource_vegetables">Vegetables</option>
+          <option value="resource_fruits">Fruits</option>
+          <option value="resource_lotus">Water lotus</option>
+          <option value="resource_air_spirit">Air_spirit</option>
+          <option value="resource_death_spirit">Death_spirit</option>
+          <option value="resource_earth_spirit">Earth_spirit</option>
+          <option value="resource_fire_spirit">Fire_Spirit</option>
+          <option value="resource_life_spirit">Life_spirit</option>
+          <option value="resource_soul_spirit">Soul_Spirit</option>
+          <option value="resource_water_spirit">Water_Spirit</option>
+          <option value="resource_flame_azalea">Flame_azalea</option>
+          <option value="resource_morning_glory">Morning_Glory</option>
+          <option value="resource_aster">Aster</option>
+          <option value="resource_mushroom">Mushroom</option>
+          <option value="resource_toadstool">Toadstool</option>
+          <option value="resource_mandrake">Mandrake</option>
+          <option value="resource_lotus">Lotus</option>
+          <option value="resource_earthspine">Earthspine</option>
+          <option value="resource_dragonglory">Dragonglory</option>
+          <option value="resource_shockbulb">Shockbulb</option>
+          <option value="resource_rivercress">Rivercress</option>
+          <option value="resource_lifebloom">Lifebloom</option>
+          <option value="resource_blightroot">Blightroot</option>
+          <option value="resource_soulsprout">Soulsprout</option>
         </select>
       </div>
+
+
+
       <div class="resource_monster">
         Harvesting Node Type for resource_monster
         <br>
           <select id="resource_monster">
-          <option value="resource_wolf">Wolf Spawn</option>
-          <option value="resource_bear">Bear Spawn</option>
+          <option value="resource_wolf_timber">Wolf_timber</option>
+          <option value="resource_bear_black">Bear_black</option>
+          <option value="resource_boar">Boar</option>
+          <option value="resource_turkey">Turkey</option>
+          <option value="resource_elk_bull">Elk_bull</option>
+          <option value="resource_buffalo">Buffalo</option>
+          <option value="resource_wolf_white">Wolf_white</option>
+          <option value="resource_wolf_grey">Wolf_grey</option>
+          <option value="resource_wolf_ice_guardian">Wolf_ice_guardian</option>
+          <option value="resource_bear_corrupted">Bear_corrupted</option>
+          <option value="resource_wolf_corrupted">Wolf_corrupted</option>
+          <option value="resource_corrupted_huntsmen">Corrupted_huntsmen</option>
+          <option value="resource_corrupted_pistoleer">Corrupted_pistoleer</option>
+          <option value="resource_corrupted_champion">Corrupted_champion</option>
+          <option value="resource_corrupted_summoner">Ccorrupted_summoner</option>
+          <option value="resource_corrupted_laborer">Corrupted_laborer</option>
+          <option value="resource_corrupted_farmhand">Corrupted_farmhand</option>
+          <option value="resource_wraith_drown">Wraith_drown</option>
+          <option value="resource_wraith_burning">Wraith_burning</option>
+          <option value="resource_wraith_plague">Wraith_plague</option>
+          <option value="resource_wraith_drown">Wraith_drown</option>
+          <option value="resource_wraith">Wraith</option>
+          <option value="resource_ancient_keepers">Ancient_keepers</option>
+          <option value="resource_ancient_reavers">Ancient_reavers</option>
+          <option value="resource_ancient_guardian">Ancient_guardian</option>
+          <option value="resource_drowned_sailor">Drowned_sailor</option>
         </select>
       </div>
       <div class="resource_hands">
         Harvesting Node Type for resource_hands
         <br>
-          <select id="resource_hands">
+        <select id="resource_hands">
           <option value="resource_abandoned_supplies">Abandon Supplies</option>
           <option value="resource_turkey_nest">Turkey Nest</option>
+          <option value="resource_ancient_chest">Ancient_chest</option>
+          <option value="resource_saltpeter">Saltpeter</option>
+          <option value="resource_carpentry_supplies">Carpentry_supplies</option>
+          <option value="resource_smelting_supplies">Smelting_supplies</option>
+          <option value="resource_farming_supplies">Farming_supplies</option>
+          <option value="resource_blacksmith_supplies">Blacksmith_supplies</option>
+          <option value="resource_alchemy_supplies">Alchemy_supplies</option>
+          <option value="resource_outfitting_supplies">Outfitting_supplies</option>
+          <option value="resource_engineering_supplies">Engineering_supplies</option>
+          <option value="resource_provisioning_supplies">Provisioning_supplies</option>
+          <option value="resource_tanning_supplies">Tanning_supplies</option>
+          <option value="resource_weaving_supplies">Weaving_supplies</option>
+          <option value="resource_container">Container</option>
+          <option value="resource_floating_spinefish">Floating_spinefish</option>
+          <option value="resource_earthshell_turtle">Earthshell_turtle</option>
+          <option value="resource_salamander_snail">Salamander_snail</option>
+          <option value="resource_lightning_beetle">Lightning_beetle</option>
+          <option value="resource_lifemoth">Lifemoth</option>
+          <option value="resource_blightmoth">Blightmoth</option>
+          <option value="resource_soulwyrm">Soulwyrm</option>
+          <option value="resource_ironchest">Ironchest</option>
+          <option value="resource_lootbasket">Lootbasket</option>
+          <option value="resource_honey">Honey</option>
+          <option value="resource_berry_bush">Berry_bush</option>
+          <option value="resource_nuts">Nuts</option>
         </select>
       </div>
-
       <div class="resource_poi">
         Harvesting Node Type for resource_poi
         <br>
           <select id="resource_poi">
-          <option value="poi_abandon_alchemy_house">Abandon Alchemy House</option>
-          <option value="poi_abandon_fishing_village">Abandon Fishing House</option>
+            <option value="poi_abandon_alchemy_house">Abandon Alchemy House</option>
+            <option value="poi_abandon_fishing_village">Abandon Fishing House</option>
+            <option value="poi_abandon_farm_village">Farm_village</option>       
+            <option value="poi_abandon_village">Abandon_village</option>
+            <option value="poi_abandon_blacksmith_house">Abandon_blacksmith_house</option>
+            <option value="poi_abandon_alchemy_house">Abandon_alchemy_house</option>
+            <option value="poi_abandon_outfitting_house">Abandon_outfitting_house</option>
+            <option value="poi_abandon_engineering_house">Abandon_engineering_house</option>
+            <option value="poi_abandon_provisioning_house">Abandon_provisioning_house</option>
+            <option value="poi_abandon_tanning_house">Abandon_tanning_house</option>
+            <option value="poi_abandon_weaving_house">Abandon_weaving_house</option>
+            <option value="poi_abandon_smelting_house">Abandon_smelting_house</option>
+            <option value="poi_abandon_carpentry_house">Abandon_carpentry_house</option>
+            <option value="poi_abandon_farm_mill">Abandon_farm_mill</option>
+            <option value="poi_abandon_campsite">Abandon_campsite</option>
+            <option value="poi_ancient_temple">Ancient_temple</option>
+            <option value="poi_ancient_ruins">Ancient_ruins</option>
+            <option value="poi_ancient_great_temple">Ancient_great_temple</option>
+            <option value="poi_ancient_tower">Ancient_tower</option>
+            <option value="poi_ancient_sphere">Ancient_sphere</option>
+            <option value="poi_ancient_shipwreck">Ancient_shipwreck</option>
+            <option value="poi_ancient_buttress">Ancient_buttress</option>
+            <option value="poi_ancient_lighthouse">Ancient_lighthouse</option>
+            <option value="poi_corrupted_fort">Corrupted_fort</option>
+            <option value="poi_azoth_tree">Azoth_tree</option>
+            <option value="poi_mine">Mine</option>
+            <option value="poi_logging_camp">Logging_camp</option>
+            <option value="poi_cave">Cave</option>
+            <option value="poi_graveyard">Graveyard</option>
         </select>
       </div>
     </div>
-
     <!-- <input type="submit" value="submit">Submit to map! -->
     <button type="submit" class="btn btn-primary" value="submit">Submit to map!</button>
 
