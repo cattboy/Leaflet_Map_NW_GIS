@@ -9,7 +9,6 @@ if (!isset($_SESSION['sessionID']))
 }
 ?>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -238,7 +237,7 @@ var map = L.map('map', {
         //preferCanvas: true,
         scrollWheelZoom: true,
         crs: L.CRS.Simple
-    }).setView([-500, -600], 0);
+    }).setView([-340.303088, -344.976769], 4);
 
 
 L.control.zoomLabel().addTo(map);
@@ -540,17 +539,58 @@ var polygon_claim_lawless = [{
   "coordinates": [
 
     [
-      convertIngameCordtoLatLng({"y": 9468.262924918854 ,"x": 9391.9488954828}),
+      convertIngameCordtoLatLng({"x": 9376.156807302901, "y": 9422.424594215221}),
 
-      convertIngameCordtoLatLng({"y": 9861.518737251314 ,"x": 9331.6213107886}),
-      convertIngameCordtoLatLng({"y": 9898.971671759165 ,"x": 9560.450080318324}),
-      convertIngameCordtoLatLng({"y": 9432.329800562891 ,"x": 9618.91033652488}),
-      convertIngameCordtoLatLng({"y": 9468.262924918854,"x": 9391.9488954828})
+      convertIngameCordtoLatLng({"x": 9376.156807302901, "y": 9512.532537324769}),
+      convertIngameCordtoLatLng({"x": 9366.535742702677, "y": 9663.004053973724}),
+      convertIngameCordtoLatLng({"x": 9259.392042053683, "y": 9818.169422400242}),
+
+      convertIngameCordtoLatLng({"x": 9325.27613408778, "y": 9912.668383834314}),
+      convertIngameCordtoLatLng({"x": 9411.129769319865, "y": 9934.218040460608}),
+      convertIngameCordtoLatLng({"x": 9521.365331233705, "y": 9976.212311677304}),
+
+      convertIngameCordtoLatLng({"x": 9600.486808407366, "y": 9928.752545524945}),
+      convertIngameCordtoLatLng({"x": 9748.30134635625, "y": 9724.041296130437}),
+      convertIngameCordtoLatLng({"x": 9747.071581041293, "y": 9633.260903259421}),
+
+      convertIngameCordtoLatLng({"x": 9614.125961110938, "y": 9442.54700425086}),
+      convertIngameCordtoLatLng({"x": 9517.107963310491, "y": 9413.307357102454}),
+  
+
+
+
+      convertIngameCordtoLatLng({"x": 9376.156807302901, "y": 9422.424594215221})
     ]
     ]
 
   }
 }, {
+    "type": "Feature",
+    "properties": {"area_type": "Lawless"},
+    "geometry": {  
+  "type": "Polygon",
+  "coordinates": [
+
+    [
+      convertIngameCordtoLatLng({"x": 5538.927359015402, "y": 9418.878057954276}),
+      convertIngameCordtoLatLng({"x": 5517.481781595481, "y": 9478.155819620499}),
+      convertIngameCordtoLatLng({"x": 5395.906510738114, "y": 9556.878845675385}),
+      convertIngameCordtoLatLng({"x": 5328.559058536552, "y": 9611.110263624305}),
+      convertIngameCordtoLatLng({"x": 5301.445149208649, "y": 9687.209188810695}),
+      convertIngameCordtoLatLng({"x": 5356.547610100836, "y": 9709.076696048163}),
+      convertIngameCordtoLatLng({"x": 5483.370734376506, "y": 9716.948998653652}),
+      convertIngameCordtoLatLng({"x": 5605.820647470257, "y": 9631.228370282777}),
+      convertIngameCordtoLatLng({"x": 5604.946005233874, "y": 9429.172603408571}),
+      convertIngameCordtoLatLng({"x": 5565.587104596597, "y": 9420.425600513583}),
+      convertIngameCordtoLatLng({"x": 5538.927359015402, "y": 9418.878057954276})
+    ]
+    ]
+
+  }
+},
+
+
+{
     "type": "Feature",
     "properties": {"area_type": "Outpost"},
     "geometry": {  
@@ -578,22 +618,52 @@ L.geoJSON(polygon_claim_lawless, {
         }
     }
 }).addTo(polygon_claims);
-    var baseLayers = {
-      "New World": osmMap
-    };
-    ///I need to play around with hiding the context of leaflet-control-layers-base text in CSS
-    //$('.leaflet-control-layers').hide();  or leaflet-control-layers-base (is the base layer texti want to hide)
 
-    var overlays = {
-      "Interesting places": coolPlaces,
-      "Claims": polygon_claims,
-      "Testing Map Contents": testing_map_contents,
-    };
 
-    L.control.layers(baseLayers,overlays).addTo(map);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // WORKING AREA 
 //TEST #1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
  //this is to add custom icons
@@ -739,7 +809,9 @@ function onPopupBoxSubmit(eb) {
          submit_Loc_popup
             .setLatLng(eb.latlng)
             // .setContent(popupContent + eb.latlng.toString())
-            .setContent(popupContent + "X: "+coords3.x+" Y: "+coords3.y)
+            //need to reverse order if i wnat to use my function
+            .setContent(popupContent + '"x": ' +coords3.y+', "y": '+coords3.x)
+            //.setContent(popupContent + '"x": ' +coords3.x+', "y": '+coords3.y)
             .openOn(map);
 
 
@@ -841,11 +913,11 @@ function convertIngameCordtoLatLng(ingamecoords) {
 
 
 
-  console.log("inside convertIngameCordtoLatLng just starting x,y " +  + ingamecoords.x + " a: " + ingamecoords.y  );
+  console.log("inside convertIngameCordtoLatLng just starting x,y "  + ingamecoords.x + " a: " + ingamecoords.y  );
   var translateFactors = 
     {
       "x": (ingamecoords.x * xOffset),
-      "y":  (ingamecoords.y * yOffset) + (height-59)
+      "y":  (ingamecoords.y * yOffset) + height
     };
   console.log("inside convertIngameCordtoLatLng AFTER x,y offset math " + translateFactors.x + " a: " + translateFactors.y );
 
@@ -868,6 +940,119 @@ function convertIngameCordtoLatLng(ingamecoords) {
 
 
 
+
+var Layer_Lawless_areas = new L.LayerGroup();
+var Lawless_areasFeature = [{
+      "type": "Feature",
+       "properties": 
+      {
+        "id": "lawless",
+        "name": "Lawless Zone (Bright Wood)",
+        "style": {
+                 "clickable": false,
+                 "color": "#d80000",
+                 "dashArray": "7",
+                 "interactive": false,
+                 "opacity": 0.8,
+                 "weight": 4
+                 }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+                   {"x": 5538.927359015402, "y": 9418.878057954276},
+                   {"x": 5517.481781595481, "y": 9478.155819620499},
+                   {"x": 5395.906510738114, "y": 9556.878845675385},
+                   {"x": 5328.559058536552, "y": 9611.110263624305},
+                   {"x": 5301.445149208649, "y": 9687.209188810695},
+                   {"x": 5356.547610100836, "y": 9709.076696048163},
+                   {"x": 5483.370734376506, "y": 9716.948998653652},
+                   {"x": 5605.820647470257, "y": 9631.228370282777},
+                   {"x": 5604.946005233874, "y": 9429.172603408571},
+                   {"x": 5565.587104596597, "y": 9420.425600513583},
+                   {"x": 5538.927359015402, "y": 9418.878057954276}
+                  ]]
+      }
+     
+    },{
+                   "type": "Feature",
+       "properties": 
+      {
+        "id": "lawless",
+        "name": "Lawless Zone (Bright Wood)",
+        "style": {
+                 "clickable": false,
+                 "color": "#d80000",
+                 "dashArray": "7",
+                 "interactive": false,
+                 "opacity": 0.8,
+                 "weight": 4
+                 }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+                   {"x": 9376.156807302901, "y": 9422.424594215221},
+                        {"x": 9376.156807302901, "y": 9512.532537324769},
+                        {"x": 9366.535742702677, "y": 9663.004053973724},
+                        {"x": 9259.392042053683, "y": 9818.169422400242},
+                        {"x": 9325.27613408778, "y": 9912.668383834314},
+                        {"x": 9411.129769319865, "y": 9934.218040460608},
+                        {"x": 9521.365331233705, "y": 9976.212311677304},
+                        {"x": 9600.486808407366, "y": 9928.752545524945},
+                        {"x": 9748.30134635625, "y": 9724.041296130437},
+                        {"x": 9747.071581041293, "y": 9633.260903259421},
+                        {"x": 9614.125961110938, "y": 9442.54700425086},
+                        {"x": 9517.107963310491, "y": 9413.307357102454},
+                        {"x": 9376.156807302901, "y": 9422.424594215221}
+                  ]]
+      }
+     
+    } ]   ;
+
+
+
+
+
+
+L.geoJSON(Lawless_areasFeature, {
+    coordsToLatLng: function (coords) {
+    return convertIngameCordtoLatLngGeoJsonObject2(coords);
+    },
+    style:function (feature) {
+    return {style: feature.properties.style}}
+}).addTo(Layer_Lawless_areas);
+
+
+
+function convertIngameCordtoLatLngGeoJsonObject2(ingamecoords) {
+//This is called for each function in the array
+
+
+  console.log("convertIngameCordtoLatLngGeoJsonObject # of objects"  + ingamecoords);
+  console.log("inside convertIngameCordtoLatLngGeoJsonObject just starting x,y "   + ingamecoords.x + " a: " + ingamecoords.y  );
+
+    var translateFactors = 
+    {
+      "x": (ingamecoords.x * xOffset) + width,
+      "y":  (ingamecoords.y * yOffset)
+    };
+  console.log("inside convertIngameCordtoLatLngGeoJsonObject AFTER x,y offset math " + translateFactors.x + " a: " + translateFactors.y );
+
+  var pointXY = L.point(translateFactors.y, translateFactors.x);
+  console.log("inside convertIngameCordtoLatLngGeoJsonObject AFTER pointXY " + pointXY.x);
+
+  var xy4 = map.unproject(pointXY,6);  //change depending on map zoom level
+  console.log("UNPROJECT xy4 " + xy4);
+
+  //reverse the order
+  var xy5 = [(-1*xy4.lat), xy4.lng];  //workingclosests
+ 
+
+  console.log("reverse the order xy5 " + xy5);
+  
+  return xy5;
+}
 
 
 //  var xy8 = this.map.project([xy4.lat,xy4.lng],6); //(we need to change the zoom level 6-7 depending on the map's max zoom
@@ -913,8 +1098,27 @@ function convertIngameCordtoLatLng(ingamecoords) {
  
 
 
-        var marker = L.marker([0, 0]).addTo(map);
-        marker.bindPopup('ABERTON!').openPopup();
+        // var marker = L.marker([0, 0]).addTo(map);
+        // marker.bindPopup('ABERTON!').openPopup();
+
+    var baseLayers = {
+      "New World": osmMap
+    };
+    ///I need to play around with hiding the context of leaflet-control-layers-base text in CSS
+    //$('.leaflet-control-layers').hide();  or leaflet-control-layers-base (is the base layer texti want to hide)
+
+    var overlays = {
+      "Interesting places": coolPlaces,
+      "Claims": polygon_claims,
+      "Testing Map Contents": testing_map_contents,
+      "Lawless Areas": Layer_Lawless_areas
+    };
+
+    L.control.layers(baseLayers,overlays).addTo(map);
+
+
+
+
         var sidebar = L.control.sidebar('sidebar').addTo(map);
     </script>
 </body>
