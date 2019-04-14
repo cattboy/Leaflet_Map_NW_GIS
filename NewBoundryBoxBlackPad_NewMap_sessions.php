@@ -17,6 +17,7 @@ if (!isset($_SESSION['sessionID']))
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<!-- original locations -->
+
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" /> -->
 
@@ -27,19 +28,25 @@ if (!isset($_SESSION['sessionID']))
 	
 	
 
+
+
   <link rel="stylesheet" href="leaflet/leaflet.css" />
   <link rel="stylesheet" href="css/leaflet-sidebar.css" />
   <link rel="stylesheet" href="ZoomLabel/L.Control.ZoomLabel.css" />
-
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <script src="leaflet/leaflet.js"></script>
   <script src="js/leaflet-sidebar.js"></script>
   <script src="ZoomLabel/L.Control.ZoomLabel.js"></script>
+  <!-- <script src="1_WorkingJS/submit_popup_to_mapv3.js"></script> -->
+  <!-- <script src="1_WorkingJS/airman_example_hide_dropdowns.js"></script> -->
   <!-- <script src="1_WorkingJS\airman_example_hide_dropdowns.js"></script> -->
   <!-- <script src="popup/popup_submit.js"></script>    -->
       
-      <!-- //NEED TO REPLACE WITH LOCALLY HOSTED FILES -->
+      <!-- //NEED TO REPLACE WITH LOCALLY HOSTED FILES -->      
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <style>
         body {
@@ -622,45 +629,8 @@ L.geoJSON(polygon_claim_lawless, {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // WORKING AREA 
 //TEST #1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -738,74 +708,240 @@ L.marker([0, 0], {icon: myIcon}).addTo(coolPlaces);
 
 
 
+var myStringArray_node_resource = 
+    [
+    "resource_mining",
+    "resource_lumberjacking",
+    "resource_sickle",
+    "resource_monster",
+    "resource_hands",
+    "resource_poi"
+    ];
+
+
+
+// selectValues = { "1": "test 1", "2": "test 2" };
+    var myStringArray_resource_mining = 
+    {
+    "resource_crystal": "Crystal",
+    "resource_lodestone": "Lodestone",
+    "resource_iron_ore_vein": "Iron Ore Vein",
+    "resource_seeping_stone": "Seeping Stone",
+    "resource_silver_ore_vein": "Silver Ore Vein",
+    "resource_gold_ore_vein": "Gold Ore Vein",
+    "resource_starmetal_ore_vein": "Starmetal Ore Vein",
+    "resource_orichalcum_ore_vein": "Orichalcum Ore Vein",
+    "resource_platinum_vein": "Platinum Vein",
+    "resource_earthcrag": "Earthcrag",
+    "resource_scorchstone": "Scorchstone",
+    "resource_shockspire": "Shockspire",
+    "resource_springstone": "Springstone",
+    "resource_lifejewel": "Lifejewel",
+    "resource_blightcrag": "Blightcrag",
+    "resource_soulspire": "Soulspire"
+    };
+
+
+  var myStringArray_resource_lumberjacking = 
+   {
+    "resource_wyrdwood": "Wyrdwood",
+    "resource_ironwood": "Ironwood"
+   };
+
+  var myStringArray_resource_sickle = 
+  {
+    "resource_vegetables": "Vegetables",
+    "resource_fruits": "Fruits",
+    "resource_grains": "Grains",
+    "resource_hemp": "Hemp",
+    "resource_air_spirit": "Air Spirit",
+    "resource_death_spirit": "Death Spirit",
+    "resource_earth_spirit": "Earth Spirit",
+    "resource_fire_spirit": "Fire Spirit",
+    "resource_life_spirit": "Life Spirit",
+    "resource_soul_spirit": "Soul Spirit",
+    "resource_water_spirit": "Water Spirit",
+    "resource_flame_azalea": "Flame Azalea",
+    "resource_morning_glory": "Morning Glory",
+    "resource_aster": "Aster",
+    "resource_mushroom": "Mushroom",
+    "resource_toadstool": "Toadstool",
+    "resource_mandrake": "Mandrake",
+    "resource_lotus": "Lotus",
+    "resource_herbs": "Herbs",
+    "resource_earthspine": "Earthspine",
+    "resource_dragonglory": "Dragonglory",
+    "resource_shockbulb": "Shockbulb",
+    "resource_rivercress": "Rivercress",
+    "resource_lifebloom": "Lifebloom",
+    "resource_blightroot": "Blightroot",
+    "resource_soulsprout": "Soulsprout"
+  };
+
+    var myStringArray_resource_poi = 
+    {
+"resource_fishing_village": "Fishing Village",
+"resource_farm_village": "Farm Village",
+"resource_village": "Village",
+"resource_alchemy_house": "Alchemy House",
+"resource_blacksmith_house": "Blacksmith House",
+"resource_outfitting_house": "Outfitting House",
+"resource_engineering_house": "Engineering House",
+"resource_provisioning_house": "Provisioning House",
+"resource_tanning_house": "Tanning House",
+"resource_weaving_house": "Weaving House",
+"resource_smelting_house": "Smelting House",
+"resource_carpenty_house": "Carpenty House",
+"resource_farm_mill": "Farm Mill",
+"resource_campsite": "Campsite",
+"resource_ancient_temple": "Ancient Temple",
+"resource_ancient_ruins": "Ancient Ruins",
+"resource_ancient_great_temple": "Ancient Great Temple",
+"resource_ancient_tower": "Ancient Tower",
+"resource_ancient_sphere": "Ancient Sphere",
+"resource_ancient_shrine": "Ancient Shrine",
+"resource_ancient_shipwreck": "Ancient Shipwreck",
+"resource_ancient_buttress": "Ancient Buttress",
+"resource_ancient_lighthouse": "Ancient Lighthouse",
+"resource_corrupted_fort": "Corrupted Fort",
+"resource_azoth_tree": "Azoth Tree",
+"resource_mine": "Mine",
+"resource_logging_camp": "Logging Camp",
+"resource_cave": "Cave",
+"resource_graveyard": "Graveyard"
+};
+
+    var myStringArray_resource_monster = 
+{
+"resource_withered": "Withered",
+"resource_pig": "Pig",
+"resource_damned": "Damned",
+"resource_damned": "Damned",
+"resource_damned": "Damned",
+"resource_damned": "Damned",
+"resource_forest_elemental": "Forest Elemental",
+"resource_tundra_elemental": "Tundra Elemental",
+"resource_bison": "Bison",
+"resource_wolf_timber": "Wolf Timber",
+"resource_bear_black": "Bear Black",
+"resource_boar": "Boar",
+"resource_turkey": "Turkey",
+"resource_elk_bull": "Elk Bull",
+"resource_elk_cow": "Elk Cow",
+"resource_wolf_white": "Wolf White",
+"resource_wolf_grey": "Wolf Grey",
+"resource_wolf_ice_guardian": "Wolf Ice Guardian",
+"resource_bear_corrupted": "Bear Corrupted",
+"resource_wolf_corrupted": "Wolf Corrupted",
+"resource_corrupted_huntsmen": "Corrupted Huntsmen",
+"resource_corrupted_pistoleer": "Corrupted Pistoleer",
+"resource_corrupted_champion": "Corrupted Champion",
+"resource_corrupted_summoner": "Corrupted Summoner",
+"resource_corrupted_laborer": "Corrupted Laborer",
+"resource_corrupted_farmhand": "Corrupted Farmhand",
+"resource_wraight_drown": "Wraight Drown",
+"resource_wraight_burning": "Wraight Burning",
+"resource_wraight_plague": "Wraight Plague",
+"resource_wraight": "Wraight",
+"resource_ancient_keeper": "Ancient Keeper",
+"resource_ancient_reaver": "Ancient Reaver",
+"resource_ancient_guardian": "Ancient Guardian",
+"resource_drowned_sailor": "Drowned Sailor"
+};
+
+    var myStringArray_resource_hands = 
+    {
+"resource_berry_bush": "Berry Bush",
+"resource_turkey_nest": "Turkey Nest",
+"resource_saltpeter": "Saltpeter",
+"resource_honey": "Honey",
+"resource_nuts": "Nuts",
+"resource_earthshell_turtle": "Earthshell Turtle",
+"resource_salamander_snail": "Salamander Snail",
+"resource_lightning_beetle": "Lightning Beetle",
+"resource_floating_spinefish": "Floating Spinefish",
+"resource_lifemoth": "Lifemoth",
+"resource_blightmoth": "Blightmoth",
+"resource_soulwyrm": "Soulwyrm",
+"resource_ironchest": "IronChest",
+"resource_lootbasket": "LootBasket",
+"resource_container": "Container",
+"resource_ancient_chest": "Ancient Chest",
+"resource_farming_supplies": "Farming Supplies",
+"resource_blacksmith_supplies": "Blacksmith Supplies",
+"resource_alchemy_supplies": "Alchemy Supplies",
+"resource_outfitting_supplies": "Outfitting Supplies",
+"resource_engineering_supplies": "Engineering Supplies",
+"resource_provisioning_supplies": "Provisioning Supplies",
+"resource_tanning_supplies": "Tanning Supplies",
+"resource_weaving_supplies": "Weaving Supplies",
+"resource_smelting_supplies": "Smelting Supplies",
+"resource_carpentry_supplies": "Carpentry Supplies",
+"resource_abandoned_supplies": "Abandoned Supplies",
+    };
+
+
+
 //This opens a pop up on right click and has a submission form for the area they clicked
 var submit_Loc_popup = L.popup();
-
 map.on('contextmenu', onPopupBoxSubmit);
-
     var featureGroup = L.featureGroup().addTo(map);
-
 function onPopupBoxSubmit(eb) {
 
          var xy = map.project([eb.latlng.lat,eb.latlng.lng],6); 
          console.log(xy);
        var coords3 = convertToInGameCords(xy);
           console.log(coords3);
-          var popupContent = '<form role="form" id="form-popup-submit" enctype="multipart/form-data" class = "form-horizontal" onsubmit="addMarker()">'+
-          // '<div class="form-group">'+
-          //     '<label class="control-label col-sm-5"><strong>Date: </strong></label>'+
-          //     '<input type="date" placeholder="Required" id="date" name="date" class="form-control"/>'+ 
-          // '</div>'+
-          '<div class="form-group">'+
-              // '<label class="control-label col-sm-5"><strong>Harvesting Tool Type: </strong></label>'+
-              '<select class="form-control" id="node_resource" name="node_resource">'+
-
-                '<option selected disabled>Select Harvesting Tool</option>'+
-                '<option value="mining_pick">Mining Pick</option>'+
-                '<option value="lumberjacking_axe">Lumberjacking Axe</option>'+
-                '<option value="sickle_">Sickle</option>'+
-                '<option value="skinning_knife">Skinning Knife</option>'+
-              '</select>'+ 
-          '</div>'+
-
-          '<div class="form-group">'+
-              // '<label class="control-label col-sm-5"><strong>Node Name: </strong></label>'+
-              '<select class="form-control" id="node_resource_name" name="node_resource_name">'+
-                '<option selected disabled>Harvesting Nodes Name</option>'+
-                '<option value="Wyrdwood">Wyrdwood</option>'+
-                '<option value="Ironwood">Ironwood</option>'+
-                '<option value="Hemp">Hemp</option>'+
-                '<option value="Skinning Knife">Skinning Knife</option>'+
-              '</select>'+ 
-          '</div>'+
-
-
-          //Counter Box
-          // '<div class="form-group">'+
-          //     '<label class="control-label col-sm-5"><strong>SubGroup: </strong></label>'+
-          //     '<input type="number" min="0" class="form-control" id="age" name="age">'+ 
-          // '</div>'+
-
-          //description box
-          // '<div class="form-group">'+
-          //     '<label class="control-label col-sm-5"><strong>Description: </strong></label>'+
-          //     '<textarea class="form-control" rows="6" id="descrip" name="descript">...</textarea>'+
-          // '</div>'+
-
-          //not sure what this does???
-          // '<input style="display: none;" type="text" id="lat" name="lat" value="'+coords3.x+'" />'+
-          // '<input style="display: none;" type="text" id="lng" name="lng" value="'+coords3.y+'" />'+
-          '<div class="form-group">'+
-            '<div style="text-align:center;" class="col-xs-4"><button type="submit" value="submit-popup-form" class="btn btn-primary trigger-submit">Submit</button></div>'+
-          '</div>'+
-
-
-
-
-
-
-          '</form>';
-
+          var popupContent = 
+           '<form id="node_submission_form2" onsubmit="return false;">  <!-- onsubmit="return false;" -- this will make the page to not reload -->'+
+    '<div class="node_submission_form_group" id="types">'+
+      '<select class="form-control" id="node_resource">'+
+        '<option selected disabled value="disabled">Select Harvesting Type</option>'+
+      '</select> '+
+    '</div>'+
+   ' <div class="container_node_resource">'+
+     ' <div class="resource_mining">'+
+         'Harvesting Node Type for resource_mining'+
+         '<br>'+
+         '<select id="resource_mining">'+
+          
+        '</select>'+
+     ' </div>'+
+     ' <div class="resource_lumberjacking">'+
+       ' Harvesting Node Type for resource_lumberjacking'+
+        '<br>   '   +
+        '<select id="resource_lumberjacking">'+
+       ' </select>'+
+     ' </div>'+
+     ' <div class="resource_sickle">'+
+       ' Harvesting Node Type for resource_sickle'+
+        '<br>'+
+       ' <select id="resource_sickle">'+
+         '</select>'+
+     ' </div>'+
+      '<div class="resource_monster">'+
+       ' Harvesting Node Type for resource_monster'+
+       ' <br>'+
+          '<select id="resource_monster">'+
+        '</select>'+
+     ' </div>'+
+    '  <div class="resource_hands">'+
+       ' Harvesting Node Type for resource_hands'+
+      '  <br>'+
+        '<select id="resource_hands">'+
+        '</select>'+
+     ' </div>'+
+   '   <div class="resource_poi">'+
+      '  Harvesting Node Type for resource_poi'+
+       ' <br>'+
+        '  <select id="resource_poi">'+
+       ' </select>  '+
+       '    </div>  '+
+       '  </div>'+
+    '<button type="submit" class="btn btn-primary" value="submit">Submit to map!</button>'+
+  '</form>'
+  ;
+ 
          submit_Loc_popup
             .setLatLng(eb.latlng)
             // .setContent(popupContent + eb.latlng.toString())
@@ -813,10 +949,99 @@ function onPopupBoxSubmit(eb) {
             .setContent(popupContent + '"x": ' +coords3.y+', "y": '+coords3.x)
             //.setContent(popupContent + '"x": ' +coords3.x+', "y": '+coords3.y)
             .openOn(map);
-
-
-
+      
+   
       };
+
+
+
+
+
+
+map.on('popupopen', function(e) {
+
+  document.querySelector("#node_submission_form2").addEventListener("submit", function(e) {
+    alert("HERE");
+    if (!doValidation()) {
+      e.preventDefault(); //stop form from submitting
+      //alert(selectedValue);
+      //add database submissions here
+    }
+  });
+
+
+
+ var select = document.getElementById("node_resource");
+  // alert("select = " + select);
+  var options = myStringArray_node_resource;
+  // alert("options = " + options);
+  for(var i = 0; i < options.length; i++) {
+      var opt = options[i];
+     // alert("opt = " + opt);
+      var el = document.createElement("option");
+      el.textContent = opt;
+      // alert("el.textContent = " + el.textContent);
+      el.value = opt;
+      select.appendChild(el);
+
+   // var subarr = "myStringArray_" + options[i];
+    // alert("noeval subarr = " + subarr);
+      var subarr = eval("myStringArray_" + opt);
+
+      // alert("subarr = " + subarr);
+  $.each(subarr, function(key, value) {
+    $('#' + opt)
+    .append($('<option>', { value : key })
+    .text(value));
+    }); 
+  }
+
+
+
+
+  $('#node_resource').bind('change',
+    function() {
+      var elements = $('div.container_node_resource').children().hide(); // hide all the elements
+      var value = $(this).val();
+
+      if (value.length) { // if somethings' selected
+
+        elements.filter('.' + value).show(); // show the ones we want
+
+      }
+    }).trigger('change');  
+
+
+ });
+
+function doValidation() //Make sure they selected a Harvesting type, and return the one theey selected
+  {
+    var selectDocID = document.getElementById("node_resource");
+    var selectedValueinDropdown = selectDocID.options[selectDocID.selectedIndex].value;
+      var arrayLength = myStringArray_node_resource.length;
+    if (selectedValueinDropdown == "disabled")
+    {
+      alert("Please Select Harvesting Type!");
+      exit();
+    }
+    else
+    {
+        for (var i = 0; i < arrayLength; i++) 
+        { 
+          if (selectedValueinDropdown == myStringArray_node_resource[i])
+          { 
+            alert("myStringArray_node_resource[i] = " + myStringArray_node_resource[i]);
+            var selectDocID2 = document.getElementById(myStringArray_node_resource[i]);
+
+              var selectedValueinSubDropdown = selectDocID2.options[selectDocID2.selectedIndex].value;
+              alert("selectedValueinSubDropdown = " + selectedValueinSubDropdown);
+            }
+        }
+    }
+ }
+
+
+
 
 
 
