@@ -8,7 +8,6 @@ if (!isset($_SESSION['sessionID']))
     //exit()
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -880,8 +879,10 @@ var myStringArray_node_resource =
 "resource_abandoned_supplies": "Abandoned Supplies",
     };
 
-
-
+var globalsubmitcordsx = 0;
+var globalsubmitcordsy = 0;
+var globalsubmitcordslat = 0;
+var globalsubmitcordslng = 0;
 //This opens a pop up on right click and has a submission form for the area they clicked
 var submit_Loc_popup = L.popup();
 map.on('contextmenu', onPopupBoxSubmit);
@@ -891,9 +892,14 @@ function onPopupBoxSubmit(eb) {
          var xy = map.project([eb.latlng.lat,eb.latlng.lng],6); 
          console.log(xy);
        var coords3 = convertToInGameCords(xy);
+
+      globalsubmitcordsx = coords3.x;
+      globalsubmitcordsy = coords3.y;
+      globalsubmitcordslat = eb.latlng.lat;
+      globalsubmitcordslng = eb.latlng.lng;
           console.log(coords3);
           var popupContent = 
-           '<form id="node_submission_form2" onsubmit="return false;">  <!-- onsubmit="return false;" -- this will make the page to not reload -->'+
+           '<form id="node_submission_form2" onsubmit="return false;"> <!-- onsubmit="return false;" -- this will make the page to not reload -->'+
     '<div class="node_submission_form_group" id="types">'+
       '<select class="form-control" id="node_resource">'+
         '<option selected disabled value="disabled">Select Harvesting Type</option>'+
@@ -938,7 +944,7 @@ function onPopupBoxSubmit(eb) {
        ' </select>  '+
        '    </div>  '+
        '  </div>'+
-    '<button type="submit" class="btn btn-primary" value="submit">Submit to map!</button>'+
+    '<button type="submit" class="btn btn-primary" value="submit" name="process-node-submit">Submit to map!</button>'+
   '</form>'
   ;
  
@@ -960,12 +966,14 @@ function onPopupBoxSubmit(eb) {
 
 map.on('popupopen', function(e) {
 
+
   document.querySelector("#node_submission_form2").addEventListener("submit", function(e) {
-    alert("HERE");
+    //alert("HERE");
+
     if (!doValidation()) {
+      // alert("HERE");
       e.preventDefault(); //stop form from submitting
-      //alert(selectedValue);
-      //add database submissions here
+
     }
   });
 
@@ -997,8 +1005,6 @@ map.on('popupopen', function(e) {
   }
 
 
-
-
   $('#node_resource').bind('change',
     function() {
       var elements = $('div.container_node_resource').children().hide(); // hide all the elements
@@ -1014,8 +1020,11 @@ map.on('popupopen', function(e) {
 
  });
 
+
+
 function doValidation() //Make sure they selected a Harvesting type, and return the one theey selected
   {
+
     var selectDocID = document.getElementById("node_resource");
     var selectedValueinDropdown = selectDocID.options[selectDocID.selectedIndex].value;
       var arrayLength = myStringArray_node_resource.length;
@@ -1030,17 +1039,78 @@ function doValidation() //Make sure they selected a Harvesting type, and return 
         { 
           if (selectedValueinDropdown == myStringArray_node_resource[i])
           { 
-            alert("myStringArray_node_resource[i] = " + myStringArray_node_resource[i]);
+            // alert("myStringArray_node_resource[i] = " + myStringArray_node_resource[i]);
             var selectDocID2 = document.getElementById(myStringArray_node_resource[i]);
 
               var selectedValueinSubDropdown = selectDocID2.options[selectDocID2.selectedIndex].value;
-              alert("selectedValueinSubDropdown = " + selectedValueinSubDropdown);
+              // alert("selectedValueinSubDropdown = " + selectedValueinSubDropdown);
+
+              // alert("globalsubmitcordsx = " + globalsubmitcordsx);
+              // alert("globalsubmitcordsy = " + globalsubmitcordsy);
+
+              // alert("globalsubmitcordslat = " + globalsubmitcordslat);
+              // alert("globalsubmitcordslng = " + globalsubmitcordslng);
+
+
+
+
+
+//AJAX CALL
+
+              $.ajax({
+                        type: "POST",
+                        url: "1DBCallsMap/process_submit_node.php",
+                        data: 
+                            {
+                            node_resource_type: selectedValueinDropdown,
+                            node_resource_name: selectedValueinSubDropdown,
+                            node_position_ingame_x: globalsubmitcordsx,
+                            node_position_ingame_y: globalsubmitcordsy,
+                            node_position_lat: globalsubmitcordslat,
+                            node_position_lng: globalsubmitcordslng
+
+                            },
+                        success: function (data) {
+                          console.log('Submission was successful.');
+                          console.log(data);
+                        },
+                        error: function (data) {
+                          console.log('An error occurred subbmitting node data.');
+                          console.log(data);
+                        },
+                       });
+
+
+
+
+
+
+
+
+
+//maybe ignore thjis
+              // if (window.XMLHttpRequest) {
+              //     // code for IE7+, Firefox, Chrome, Opera, Safari
+              //     xmlhttp = new XMLHttpRequest();
+              // } else {
+              //     // code for IE6, IE5
+              //     xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+              // }
+              // xmlhttp.onreadystatechange = function() {
+              //     if (this.readyState == 4 && this.status == 200) {
+              //         document.getElementById("txtHint").innerHTML = this.responseText;
+              //     }
+              // };
+              // xmlhttp.open("GET","1DBCallsMap/process_submit_node.php?node_resource_type="+selectedValueinDropdown+"node_resource_name="+selectedValueinSubDropdown+"node_position_ingame_x="+globalsubmitcordsx+"node_position_ingame_y="+globalsubmitcordsy+"node_position_lat="+globalsubmitcordslat+"node_position_lng="+globalsubmitcordslng,true);
+              // xmlhttp.send();
+             
+              // //valeus that need to be passed in selectedValueinDropdown, selectedValueinSubDropdown, node_position_ingame_x, node_position_ingame_y, node_position_lat, node_position_lng, forum_name, alpha_access_nda, login_row_id);
+
+
             }
         }
     }
  }
-
-
 
 
 
@@ -1061,6 +1131,9 @@ map.on('click', function(e) {
 
 function doStuff(e) {
   console.log("e.latlng: " + e.latlng);
+  console.log("e.latlng.lat: " + e.latlng.lat + ", & e.latlng.lng: " + e.latlng.lng);
+
+
   // coordinates in tile space
   var x = e.layerPoint.x;
   var y = e.layerPoint.y;
@@ -1323,7 +1396,7 @@ function convertIngameCordtoLatLngGeoJsonObject2(ingamecoords) {
  
 
 
-        // var marker = L.marker([0, 0]).addTo(map);
+        // var marker = L.marker([-343.691389, -349.123591]).addTo(map);
         // marker.bindPopup('ABERTON!').openPopup();
 
     var baseLayers = {
