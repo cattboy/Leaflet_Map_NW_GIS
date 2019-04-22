@@ -889,6 +889,8 @@ map.on('contextmenu', onPopupBoxSubmit);
     var featureGroup = L.featureGroup().addTo(map);
 function onPopupBoxSubmit(eb) {
 
+	
+	map.closePopup();
          var xy = map.project([eb.latlng.lat,eb.latlng.lng],6); 
          console.log(xy);
        var coords3 = convertToInGameCords(xy);
@@ -1079,7 +1081,8 @@ function doValidation() //Make sure they selected a Harvesting type, and return 
                           console.log(data);
                         },
                        });
-
+			
+		  map.closePopup();
 
 
 
