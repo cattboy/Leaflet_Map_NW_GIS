@@ -41,6 +41,8 @@
 			//echo "Login successful! <br />\n Welcome to New World map project " . $username . " !<br />\n";
 			
 			$_SESSION['sessionID'] = true;
+			$_SESSION['username'] = $username;
+			$_SESSION['alpha_access_nda'] = $alpha_access_nda;			
 			//$expiry = time()+60*60*24;
 			/////////Name ///////////////Vaue/Time////fillers///HTTPonly
 			//setcookie('cookiesessionID', 1, $expiry, '','','', TRUE);
